@@ -3,8 +3,11 @@ package org.unibl.etf.pisio.incidentservice.controller;
 import org.unibl.etf.pisio.incidentservice.model.Incident;
 import org.unibl.etf.pisio.incidentservice.service.IncidentService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -29,9 +32,11 @@ public class IncidentController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping
-    public Incident create(@RequestBody Incident incident) {
-        return service.create(incident);
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Incident> create(
+            @ModelAttribute Incident incident,
+            @RequestPart("image") MultipartFile image) throws IOException {
+        return ResponseEntity.ok(service.create(incident, image));
     }
 
     @PutMapping("/{id}")
