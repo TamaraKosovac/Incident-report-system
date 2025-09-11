@@ -1,0 +1,224 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  font-family: "Segoe UI", Roboto, sans-serif;
+}
+
+.admin-layout {
+  display: flex;
+  height: 100%;
+  gap: 0;
+  background: linear-gradient(180deg, #fef8f4 0%, #fdeee0 60%, #fbe3cc 100%);
+}
+
+.sidebar {
+  width: 300px;
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(10px);
+  border: none;
+  box-shadow: none;
+  padding: 16px 14px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  padding: 12px 8px 16px;
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.08);
+}
+
+.brand-logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.brand-name {
+  font-weight: 800;
+  font-size: 22px;
+  color: #e67e22;
+  letter-spacing: 0.2px;
+}
+
+.brand-tagline {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 8px;
+  margin-top: 10px;
+}
+
+.menu a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  color: #e67e22;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.menu a:hover {
+  background: rgba(230, 126, 34, 0.08);
+  color: #e67e22;
+}
+
+.menu a.active {
+  background: rgba(230, 126, 34, 0.15);
+  font-weight: 600;
+  color: #e67e22;
+}
+
+.bottom {
+  margin-top: auto;
+  padding: 10px 8px;
+}
+
+.bottom a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #e67e22;
+  font-size: 15px;
+  font-weight: 500;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.bottom a:hover {
+  background: rgba(230, 126, 34, 0.08);
+  color: #e67e22;
+}
+
+.bottom a.active {
+  background: rgba(230, 126, 34, 0.15);
+  font-weight: 600;
+  color: #e67e22;
+}
+
+.content {
+  flex: 1;
+  background: #fefaf7;
+  backdrop-filter: blur(6px);
+  border: none;
+  border-radius: 0;
+  padding: 20px 20px 20px 24px;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.topbar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;               
+  padding: 18px 24px;       
+  margin-bottom: 16px;
+  background: #ffffffcc;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  min-height: 60px;        
+}
+
+.spacer {
+  flex: 1;
+}
+
+.icon-btn {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font-size: 18px;
+  transition: transform 0.15s ease;
+}
+
+.icon-btn:hover {
+  transform: scale(1.1);
+}
+
+.user {
+  font-weight: 600;
+  color: #e67e22;
+}
+
+.page-container {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 16px;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.page-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.page-container::-webkit-scrollbar-thumb {
+  background: rgba(230, 126, 34, 0.3);
+  border-radius: 8px;
+}
+
+.page-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(230, 126, 34, 0.5);
+}
+
+.menu a mat-icon,
+.bottom a mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+}
+
+.icon-btn mat-icon {
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+  line-height: 22px;
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.dashboard-title {
+  font-weight: 500;
+  font-size: 18px;
+  color: #e67e22;
+  letter-spacing: 0.2px;
+}
+
+.sidebar .menu a[routerLink="malfunctions"] mat-icon {
+  font-size: 18px; 
+  vertical-align: middle; 
+}
