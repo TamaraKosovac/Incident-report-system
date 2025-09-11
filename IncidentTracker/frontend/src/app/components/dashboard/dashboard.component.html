@@ -7,11 +7,11 @@
     </div>
 
     <nav class="menu">
-      <a routerLink="report" routerLinkActive="active">
+      <a routerLink="report" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <mat-icon>report_problem</mat-icon>
         <span>Report incident</span>
       </a>
-      <a routerLink="map" routerLinkActive="active">
+      <a routerLink="map" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <mat-icon>map</mat-icon>
         <span>Incident map</span>
       </a>
@@ -24,7 +24,7 @@
     </header>
 
     <div class="page-container">
-      <h2>Welcome!</h2>
+      <router-outlet></router-outlet>
     </div>
   </main>
 </div>

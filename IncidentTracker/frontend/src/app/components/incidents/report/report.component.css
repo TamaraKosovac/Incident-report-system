@@ -1,0 +1,46 @@
+.report-form {
+  max-width: 500px;
+  margin: auto;
+  background: #fff8f2;
+  border: 1px solid #f5cba7;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+h2 {
+  color: #e67e22;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #444;
+}
+
+select, textarea, input[type="file"] {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+button {
+  background: #e67e22;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+button:hover {
+  background: #cf711f;
+}
