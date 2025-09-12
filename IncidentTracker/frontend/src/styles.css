@@ -1,4 +1,127 @@
-/* You can add global styles to this file, and also import other style files */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+}
+
+app-root, app-admin, .admin-layout {
+  height: 100%;
+  min-height: 0;
+}
+
+.mat-mdc-raised-button.mat-primary {
+  background-color: #F97316 !important;  
+  color: white !important;
+}
+.mat-mdc-raised-button.mat-primary:hover {
+  background-color: #C2410C !important;   
+}
+
+.mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__leading,
+.mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__trailing,
+.mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__notch {
+  border-color: #F97316 !important;
+}
+.mdc-text-field--focused .mdc-floating-label {
+  color: #F97316 !important;
+}
+.mat-mdc-input-element {
+  caret-color: #F97316 !important;
+}
+
+.mat-mdc-checkbox .mdc-checkbox__native-control:enabled:checked ~ .mdc-checkbox__background {
+  border-color: #F97316 !important;
+  background-color: #F97316 !important;
+}
+.mat-mdc-radio-button .mdc-radio__native-control:enabled:checked 
++ .mdc-radio__background .mdc-radio__inner-circle {
+  border-color: #F97316 !important;
+}
+.mat-mdc-radio-button .mdc-radio__native-control:enabled:checked 
++ .mdc-radio__background .mdc-radio__outer-circle {
+  border-color: #F97316 !important;
+}
+
+.mat-mdc-select.mat-mdc-select-focused .mat-mdc-select-arrow {
+  color: #F97316 !important;
+}
+.mat-mdc-select-panel .mat-mdc-option.mdc-list-item--selected {
+  color: #F97316 !important;
+}
+
+.full-width .mat-mdc-text-field-wrapper {
+  background: #f5f7f8;
+  border: 1px solid #ccc; 
+  border-radius: 10px;
+  transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease;
+  overflow: hidden;
+  min-height: 45px !important;
+  height: 45px !important;
+}
+.full-width .mat-mdc-form-field-flex {
+  min-height: 45px !important;
+}
+.full-width .mat-mdc-form-field-infix {
+  padding: 0 !important;
+  min-height: 40px !important;
+}
+.full-width .mat-mdc-input-element {
+  font-size: 16px !important;
+  line-height: 40px !important;
+  height: 40px !important;
+  padding: 0 !important;
+  background: transparent;
+  color: #1f2937 !important;
+}
+.full-width .mat-mdc-input-element::placeholder {
+  color: #6b7280 !important;
+  opacity: 1;
+}
+.full-width .mat-mdc-text-field-wrapper:hover {
+  background: #f2f4f6;
+}
+.full-width .mat-mdc-text-field-wrapper:focus-within {
+  background: #fff;
+  border-color: #F97316;
+  box-shadow: 0 0 0 4px rgba(249,115,22,0.12);
+}
+.full-width.mat-mdc-form-field-invalid .mat-mdc-text-field-wrapper {
+  border-color: #ff6b6b;
+  box-shadow: 0 0 0 4px rgba(255,107,107,0.12);
+  background: #fff;
+}
+
+.full-width .mdc-notched-outline,
+.full-width .mdc-notched-outline__leading,
+.full-width .mdc-notched-outline__notch,
+.full-width .mdc-notched-outline__trailing {
+  display: none;
+}
+
+.snackbar-success {
+  background-color: #4CA79C !important; 
+  color: white !important;
+  font-weight: 400;
+  border-radius: 2px !important;
+  margin-top: 10px;
+}
+
+.snackbar-error {
+  background-color: #ff6b6b !important; 
+  color: white !important;
+  font-weight: 400;
+  border-radius: 2px !important;
+  margin-top: 10px;
+}
+
+.mat-mdc-dialog-title,
+[mat-dialog-title] {
+  color: #F97316 !important;
+  font-weight: 600;
+}
