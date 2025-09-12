@@ -11,7 +11,7 @@
             matInput
             type="number"
             name="latitude"
-            [(ngModel)]="incident.latitude"
+            [(ngModel)]="incident.location.latitude"
             placeholder="Latitude"
             required
           />
@@ -25,7 +25,7 @@
             matInput
             type="number"
             name="longitude"
-            [(ngModel)]="incident.longitude"
+            [(ngModel)]="incident.location.longitude"
             placeholder="Longitude"
             required
           />
@@ -55,7 +55,11 @@
       <div>
         <label class="field-label">Subtype</label>
         <mat-form-field class="full-width" appearance="outline">
-          <mat-select name="subtype" [(ngModel)]="incident.subtype" placeholder="Subtype">
+          <mat-select
+            name="subtype"
+            [(ngModel)]="incident.subtype"
+            placeholder="Subtype"
+          >
             <mat-option
               *ngFor="let sub of subtypesByType[incident.type]"
               [value]="sub"
@@ -69,16 +73,16 @@
 
     <div class="form-row">
       <div>
-        <label class="field-label">Description</label>
+        <label class="field-label">Address</label>
         <mat-form-field class="full-width" appearance="outline">
-          <textarea
+          <input
             matInput
-            rows="3"
-            name="description"
-            [(ngModel)]="incident.description"
-            placeholder="Description"
+            type="text"
+            name="address"
+            [(ngModel)]="incident.location.address"
+            placeholder="Address"
             required
-          ></textarea>
+          />
         </mat-form-field>
       </div>
 
@@ -108,6 +112,23 @@
         </div>
       </div>
     </div>
+
+    <div class="form-row">
+      <div>
+        <label class="field-label">Description</label>
+        <mat-form-field class="full-width" appearance="outline">
+          <textarea
+            matInput
+            rows="3"
+            name="description"
+            [(ngModel)]="incident.description"
+            placeholder="Description"
+            required
+          ></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+
   </form>
 </div>
 

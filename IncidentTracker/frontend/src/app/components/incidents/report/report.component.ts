@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import * as L from 'leaflet';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ReportFormComponent } from '../report-form/report-form.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-report',
   standalone: true,
-  imports: [CommonModule, MatDialogModule],
+  imports: [CommonModule, MatDialogModule, MatButtonModule, MatIconModule],
   templateUrl: './report.component.html',
   styleUrls: ['./report.component.css']
 })
@@ -45,16 +47,23 @@ export class ReportComponent implements AfterViewInit {
     });
   }
 
-  private openReportForm(lat: number, lng: number) {
-    if (this.marker) {
-      this.marker.setLatLng([lat, lng]);
-    } else {
-      this.marker = L.marker([lat, lng], { icon: this.orangeIcon }).addTo(this.map);
-    }
+  openReportForm(lat?: number, lng?: number) {
+    if (lat !== undefined && lng !== undefined) {
+      if (this.marker) {
+        this.marker.setLatLng([lat, lng]);
+      } else {
+        this.marker = L.marker([lat, lng], { icon: this.orangeIcon }).addTo(this.map);
+      }
 
-    this.dialog.open(ReportFormComponent, {
-      width: '600px',
-      data: { latitude: lat, longitude: lng }
-    });
+      this.dialog.open(ReportFormComponent, {
+        width: '600px',
+        data: { latitude: lat, longitude: lng }
+      });
+    } else {
+      this.dialog.open(ReportFormComponent, {
+        width: '600px',
+        data: { latitude: null, longitude: null }
+      });
+    }
   }
 }

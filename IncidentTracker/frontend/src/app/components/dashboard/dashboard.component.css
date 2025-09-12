@@ -80,7 +80,7 @@ html, body {
 
 .menu a.active {
   background: rgba(230, 126, 34, 0.15);
-  font-weight: 600;
+  font-weight: 550;
   color: #e67e22;
 }
 
@@ -144,23 +144,6 @@ html, body {
   flex: 1;
 }
 
-.icon-btn {
-  background: transparent;
-  border: 0;
-  cursor: pointer;
-  font-size: 18px;
-  transition: transform 0.15s ease;
-}
-
-.icon-btn:hover {
-  transform: scale(1.1);
-}
-
-.user {
-  font-weight: 600;
-  color: #e67e22;
-}
-
 .page-container {
   flex: 1 1 auto;
   min-height: 0;
@@ -191,26 +174,6 @@ html, body {
   line-height: 20px;
 }
 
-.icon-btn mat-icon {
-  font-size: 22px;
-  width: 22px;
-  height: 22px;
-  line-height: 22px;
-}
-
-.user-section {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.user-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
 .dashboard-title {
   font-weight: 500;
   font-size: 18px;
@@ -221,13 +184,4 @@ html, body {
 .sidebar .menu a[routerLink="malfunctions"] mat-icon {
   font-size: 18px; 
   vertical-align: middle; 
-}
-
-::ng-deep .btn-orange.mat-mdc-raised-button {
-  background-color: #e67e22 !important;
-  color: #fff !important;
-}
-
-::ng-deep .btn-orange.mat-mdc-raised-button:hover {
-  background-color: #cf711f !important;
 }

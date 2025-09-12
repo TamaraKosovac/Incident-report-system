@@ -34,7 +34,6 @@ app-root, app-admin, .admin-layout {
 .mat-mdc-input-element {
   caret-color: #F97316 !important;
 }
-
 .mat-mdc-checkbox .mdc-checkbox__native-control:enabled:checked ~ .mdc-checkbox__background {
   border-color: #F97316 !important;
   background-color: #F97316 !important;
@@ -70,6 +69,8 @@ app-root, app-admin, .admin-layout {
 .full-width .mat-mdc-form-field-infix {
   padding: 0 !important;
   min-height: 40px !important;
+  margin-top: 1px;
+  margin-left: -8px;
 }
 .full-width .mat-mdc-input-element {
   font-size: 16px !important;
@@ -80,7 +81,7 @@ app-root, app-admin, .admin-layout {
   color: #1f2937 !important;
 }
 .full-width .mat-mdc-input-element::placeholder {
-  color: #6b7280 !important;
+  color: hsl(220, 9%, 46%) !important;
   opacity: 1;
 }
 .full-width .mat-mdc-text-field-wrapper:hover {

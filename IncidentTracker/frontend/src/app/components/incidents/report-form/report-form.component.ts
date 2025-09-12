@@ -30,8 +30,11 @@ export class ReportFormComponent {
     subtype: '',
     description: '',
     image: null,
-    latitude: null,
-    longitude: null
+    location: {
+      address: '',
+      latitude: null,
+      longitude: null
+    }
   };
 
   selectedImage: File | null = null;
@@ -55,8 +58,8 @@ export class ReportFormComponent {
     private dialogRef: MatDialogRef<ReportFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { latitude: number; longitude: number }
   ) {
-    this.incident.latitude = data.latitude;
-    this.incident.longitude = data.longitude;
+    this.incident.location.latitude = data.latitude;
+    this.incident.location.longitude = data.longitude;
   }
 
   onTypeChange() {
