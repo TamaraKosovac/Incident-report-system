@@ -3,15 +3,14 @@
 }
 
 .filter-container {
-  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  float: right;
 }
 
-.filter-input {
-  width: 250px;
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 14px;
+.filter-field {
+  width: 200px;
 }
 
 .map {
@@ -19,4 +18,38 @@
   height: 480px;
   border: 2px solid #F97316;
   border-radius: 8px;
+}
+
+::ng-deep .filter-field .mat-mdc-text-field-wrapper {
+  min-height: 36px !important;
+  height: 36px !important;
+  padding: 0 8px !important; 
+}
+
+::ng-deep .filter-field .mat-mdc-form-field-flex {
+  height: 36px !important;
+  align-items: center !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+::ng-deep .filter-field .mat-mdc-input-element {
+  height: 24px !important;
+  line-height: 24px !important;
+  font-size: 14px !important;
+}
+
+::ng-deep .filter-field .mat-icon {
+  font-size: 16px !important;
+  width: 16px !important;
+  height: 16px !important;
+  margin-right: 6px !important; 
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+  color: hsl(220, 9%, 46%) !important;
+}
+
+::ng-deep .filter-field .mat-mdc-select-value {
+  font-size: 14px !important; 
 }
