@@ -1,0 +1,39 @@
+<h2 mat-dialog-title>Report Incident</h2>
+
+<div mat-dialog-content class="form-container">
+  <form #form="ngForm" (ngSubmit)="save()">
+
+    <p><strong>Selected location:</strong> {{incident.latitude}}, {{incident.longitude}}</p>
+
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Incident Type</mat-label>
+      <select matNativeControl [(ngModel)]="incident.type" name="type" required>
+        <option value="">-- select type --</option>
+        <option value="FIRE">Fire</option>
+        <option value="FLOOD">Flood</option>
+        <option value="ACCIDENT">Accident</option>
+        <option value="CRIME">Crime</option>
+      </select>
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Subtype</mat-label>
+      <input matInput [(ngModel)]="incident.subtype" name="subtype">
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea matInput rows="3" [(ngModel)]="incident.description" name="description" required></textarea>
+    </mat-form-field>
+
+    <div>
+      <label>Attach Image:</label>
+      <input type="file" (change)="onFileSelected($event)" />
+    </div>
+
+    <div mat-dialog-actions>
+      <button mat-stroked-button type="button" (click)="cancel()">Cancel</button>
+      <button mat-raised-button color="primary" type="submit">Save</button>
+    </div>
+  </form>
+</div>

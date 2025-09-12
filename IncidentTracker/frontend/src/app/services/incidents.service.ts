@@ -1,16 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-export interface Incident {
-  id?: number;
-  type: string;
-  subtype: string;
-  description: string;
-  latitude: number | null;
-  longitude: number | null;
-  imageUrl?: string;
-}
+import { Incident } from '../models/incident.model';
 
 @Injectable({
   providedIn: 'root'
@@ -27,13 +18,16 @@ export class IncidentsService {
   createIncident(incident: any): Observable<Incident> {
     const formData = new FormData();
     formData.append('type', incident.type);
-    formData.append('subtype', incident.subtype);
-    formData.append('description', incident.description);
-    if (incident.latitude) {
-      formData.append('latitude', incident.latitude.toString());
+    if (incident.subtype) {
+      formData.append('subtype', incident.subtype);
     }
-    if (incident.longitude) {
-      formData.append('longitude', incident.longitude.toString());
+    formData.append('description', incident.description);
+
+    if (incident.location?.latitude) {
+      formData.append('latitude', incident.location.latitude.toString());
+    }
+    if (incident.location?.longitude) {
+      formData.append('longitude', incident.location.longitude.toString());
     }
     if (incident.image) {
       formData.append('image', incident.image, incident.image.name);
