@@ -222,3 +222,12 @@ html, body {
   font-size: 18px; 
   vertical-align: middle; 
 }
+
+::ng-deep .btn-orange.mat-mdc-raised-button {
+  background-color: #e67e22 !important;
+  color: #fff !important;
+}
+
+::ng-deep .btn-orange.mat-mdc-raised-button:hover {
+  background-color: #cf711f !important;
+}

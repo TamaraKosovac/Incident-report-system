@@ -17,13 +17,22 @@ export class ReportComponent implements AfterViewInit {
 
   private dialog = inject(MatDialog);
 
+  private orangeIcon: L.DivIcon = L.divIcon({
+    html: `<span class="material-icons" 
+                 style="color: #e67e22; font-size: 30px;">location_on</span>`,
+    className: '',
+    iconSize: [30, 30],
+    iconAnchor: [15, 30],
+    popupAnchor: [0, -30]
+  });
+
   ngAfterViewInit(): void {
     this.initMap();
   }
 
-  initMap() {
+  private initMap() {
     this.map = L.map('map', {
-      center: [44.78, 17.19], 
+      center: [44.78, 17.19],
       zoom: 13
     });
 
@@ -31,17 +40,16 @@ export class ReportComponent implements AfterViewInit {
       attribution: '© OpenStreetMap contributors'
     }).addTo(this.map);
 
-    // klik na mapu otvara formu
     this.map.on('click', (e: L.LeafletMouseEvent) => {
       this.openReportForm(e.latlng.lat, e.latlng.lng);
     });
   }
 
-  openReportForm(lat: number, lng: number) {
+  private openReportForm(lat: number, lng: number) {
     if (this.marker) {
       this.marker.setLatLng([lat, lng]);
     } else {
-      this.marker = L.marker([lat, lng]).addTo(this.map);
+      this.marker = L.marker([lat, lng], { icon: this.orangeIcon }).addTo(this.map);
     }
 
     this.dialog.open(ReportFormComponent, {

@@ -19,9 +19,14 @@
   </aside>
 
   <main class="content">
-    <header class="topbar">
-      <div class="dashboard-title">{{ pageTitle }}</div>
-    </header>
+  <header class="topbar">
+    <div class="dashboard-title">{{ pageTitle }}</div>
+    <div class="spacer"></div>
+      <button mat-raised-button class="btn-orange" (click)="openReportForm()">
+        <mat-icon>add</mat-icon>
+        Add report
+      </button>
+  </header>
 
     <div class="page-container">
       <router-outlet></router-outlet>

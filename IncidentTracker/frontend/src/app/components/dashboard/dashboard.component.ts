@@ -1,19 +1,24 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterLink, RouterLinkActive, Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { Subject, filter, map, takeUntil } from 'rxjs';
+import { ReportFormComponent } from '../incidents/report-form/report-form.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, MatIconModule],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, MatIconModule, MatButtonModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnDestroy {
   pageTitle = 'Dashboard';
   private destroy$ = new Subject<void>();
+
+  private dialog = inject(MatDialog);
 
   constructor(private router: Router, private route: ActivatedRoute) {
     this.router.events
@@ -29,6 +34,13 @@ export class DashboardComponent implements OnDestroy {
         takeUntil(this.destroy$)
       )
       .subscribe(title => this.pageTitle = title);
+  }
+
+  openReportForm() {
+    this.dialog.open(ReportFormComponent, {
+      width: '600px',
+      data: {}
+    });
   }
 
   ngOnDestroy(): void {
