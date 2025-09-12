@@ -35,7 +35,7 @@ public class IncidentController {
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Incident> create(
             @ModelAttribute Incident incident,
-            @RequestPart("image") MultipartFile image) throws IOException {
+            @RequestPart(value = "image", required = false) MultipartFile image) throws IOException {
         return ResponseEntity.ok(service.create(incident, image));
     }
 

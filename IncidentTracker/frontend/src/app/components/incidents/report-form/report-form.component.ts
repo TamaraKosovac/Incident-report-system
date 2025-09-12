@@ -7,7 +7,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'; 
 import { IncidentSubtype } from '../../../models/enums/incident-subtype.enum';
+import { IncidentsService } from '../../../services/incidents.service';
 
 @Component({
   selector: 'app-report-form',
@@ -19,7 +21,8 @@ import { IncidentSubtype } from '../../../models/enums/incident-subtype.enum';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    MatSelectModule
+    MatSelectModule,
+    MatSnackBarModule 
   ],
   templateUrl: './report-form.component.html',
   styleUrls: ['./report-form.component.css']
@@ -56,7 +59,9 @@ export class ReportFormComponent {
 
   constructor(
     private dialogRef: MatDialogRef<ReportFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { latitude: number; longitude: number }
+    @Inject(MAT_DIALOG_DATA) public data: { latitude: number; longitude: number },
+    private incidentsService: IncidentsService,
+    private snackBar: MatSnackBar 
   ) {
     this.incident.location.latitude = data.latitude;
     this.incident.location.longitude = data.longitude;
@@ -107,8 +112,25 @@ export class ReportFormComponent {
   }
 
   save() {
-    console.log('Incident reported:', this.incident);
-    this.dialogRef.close(this.incident);
+    this.incidentsService.createIncident(this.incident).subscribe({
+      next: (res) => {
+        this.snackBar.open('Incident reported successfully!', '', {
+          duration: 3000,
+          horizontalPosition: 'end',
+          verticalPosition: 'top',
+          panelClass: ['snackbar-success']
+        });
+        this.dialogRef.close(res);
+      },
+      error: (err) => {
+        this.snackBar.open('Failed to report incident.', '', {
+          duration: 3000,
+          horizontalPosition: 'end',
+          verticalPosition: 'top',
+          panelClass: ['snackbar-error']
+        });
+      }
+    });
   }
 
   cancel() {

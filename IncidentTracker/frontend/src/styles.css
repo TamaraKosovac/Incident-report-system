@@ -105,20 +105,14 @@ app-root, app-admin, .admin-layout {
   display: none;
 }
 
-.snackbar-success {
-  background-color: #4CA79C !important; 
-  color: white !important;
-  font-weight: 400;
-  border-radius: 2px !important;
-  margin-top: 10px;
+.mat-mdc-snack-bar-container.snackbar-success {
+  --mdc-snackbar-container-color: #4CA79C !important;
+  --mdc-snackbar-supporting-text-color: #fff !important;
 }
 
-.snackbar-error {
-  background-color: #ff6b6b !important; 
-  color: white !important;
-  font-weight: 400;
-  border-radius: 2px !important;
-  margin-top: 10px;
+.mat-mdc-snack-bar-container.snackbar-error {
+  --mdc-snackbar-container-color: #ff6b6b !important;
+  --mdc-snackbar-supporting-text-color: #fff !important;
 }
 
 .mat-mdc-dialog-title,
@@ -126,3 +120,4 @@ app-root, app-admin, .admin-layout {
   color: #F97316 !important;
   font-weight: 600;
 }
+
