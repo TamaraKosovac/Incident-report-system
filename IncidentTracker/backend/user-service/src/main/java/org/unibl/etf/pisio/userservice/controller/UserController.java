@@ -47,4 +47,11 @@ public class UserController {
                 ? ResponseEntity.noContent().build()
                 : ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<User> getByUsername(@RequestParam String username) {
+        return service.getByUsername(username)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 }
