@@ -1,0 +1,131 @@
+:host {
+  display: block;
+  min-height: 100dvh;
+  background: #fdeee0 url('/assets/background.png') center/cover no-repeat fixed;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100dvh;
+  padding: 32px 16px;
+  box-sizing: border-box;
+}
+@supports (height: 100svh) {
+  .login-container { min-height: 100svh; }
+}
+
+.login-box {
+  background: #fff;
+  padding: 15px 25px;
+  border-radius: 20px;
+  box-shadow: 0 6px 30px rgba(0,0,0,0.12);
+  width: 540px;
+  max-width: 90%;
+}
+
+.login-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 4px;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 4px;
+}
+
+.login-logo {
+  width: 60px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.login-title {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.login-tagline {
+  font-size: 15px;
+  color: #6b7280;
+  margin-top: 2px;
+  margin-bottom: 30px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #666;
+  margin-left: 3px;
+}
+
+.full-width { width: 100%; margin-bottom: 20px; }
+
+.mat-mdc-raised-button {
+  border-radius: 10px !important;
+  min-height: 45px !important;
+  font-size: 18px !important;
+  padding: 0 14px !important;
+}
+
+.login-form button[type="submit"] { margin-top: 35px; }
+
+.error-msg { color: red; margin-top: 12px; text-align: center; }
+
+.modern-field .mat-mdc-form-field-icon-suffix { margin-left: 4px; }
+.modern-field .mat-mdc-icon-button.mat-mdc-button-base { width: 36px; height: 36px; }
+.modern-field .mat-mdc-icon-button .mat-icon { font-size: 20px; line-height: 20px; color: #6b7280; }
+
+.full-width .mat-mdc-text-field-wrapper {
+  background: #f5f7f8;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease;
+  overflow: hidden;
+  min-height: 45px !important;
+  height: 45px !important;
+}
+.full-width .mdc-notched-outline,
+.full-width .mdc-notched-outline__leading,
+.full-width .mdc-notched-outline__notch,
+.full-width .mdc-notched-outline__trailing { display: none; }
+
+.full-width .mat-mdc-form-field-flex { min-height: 45px !important; padding: 0 12px !important; }
+.full-width .mat-mdc-form-field-infix { padding: 0 !important; min-height: 40px !important; }
+
+.full-width .mat-mdc-input-element {
+  font-size: 16px !important;
+  line-height: 40px !important;
+  height: 40px !important;
+  padding: 0 !important;
+  background: transparent;
+  color: #1f2937 !important;
+}
+.full-width .mat-mdc-input-element::placeholder { color: #6b7280 !important; opacity: 1; }
+.full-width .mat-mdc-input-element:-webkit-autofill { -webkit-text-fill-color: #1f2937 !important; }
+.full-width .mat-mdc-text-field-wrapper:hover { background: #f2f4f6; }
+.full-width .mat-mdc-text-field-wrapper:focus-within {
+  background: #fff;
+  border-color: #4CA79C;
+  box-shadow: 0 0 0 4px rgba(76,167,156,0.12);
+}
+.full-width.mat-mdc-form-field-invalid .mat-mdc-text-field-wrapper {
+  border-color: #ff6b6b;
+  box-shadow: 0 0 0 4px rgba(255,107,107,0.12);
+  background: #fff;
+}
+.mdc-text-field--focused .mdc-floating-label { color: #4CA79C !important; }
+
+:host ::ng-deep .mat-mdc-form-field-icon-suffix {
+  margin-right: 10px !important;
+  margin-bottom: 4px !important;
+}
