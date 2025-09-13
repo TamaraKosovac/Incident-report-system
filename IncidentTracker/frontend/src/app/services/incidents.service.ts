@@ -46,7 +46,19 @@ export class IncidentsService {
     return this.http.post<Incident>(this.apiUrl, formData);
   }
 
-  getApprovedIncidents(): Observable<Incident[]> {
-    return this.http.get<Incident[]>(`${this.apiUrl}/approved`);
+  getApprovedIncidentsFiltered(
+    type?: string,
+    subtype?: string,
+    location?: string,
+    period: string = 'all'
+  ): Observable<Incident[]> {
+    const params: any = {};
+
+    if (type) params.type = type;
+    if (subtype) params.subtype = subtype;
+    if (location) params.location = location;
+    if (period) params.period = period;
+
+    return this.http.get<Incident[]>(`${this.apiUrl}/approved`, { params });
   }
 }

@@ -2,12 +2,15 @@ package org.unibl.etf.pisio.incidentservice.service;
 
 import org.unibl.etf.pisio.incidentservice.model.Incident;
 import org.unibl.etf.pisio.incidentservice.model.enums.IncidentStatus;
+import org.unibl.etf.pisio.incidentservice.model.enums.IncidentSubtype;
+import org.unibl.etf.pisio.incidentservice.model.enums.IncidentType;
 import org.unibl.etf.pisio.incidentservice.repository.IncidentRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.*;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -63,7 +66,29 @@ public class IncidentService {
         return false;
     }
 
-    public List<Incident> getApprovedIncidents() {
-        return repository.findByStatus(IncidentStatus.APPROVED);
+    public List<Incident> getApprovedWithFilters(
+            IncidentType type,
+            IncidentSubtype subtype,
+            String location,
+            String period
+    ) {
+        List<Incident> approved = repository.findByStatus(IncidentStatus.APPROVED);
+
+        LocalDateTime fromDate = switch (period) {
+            case "24h" -> LocalDateTime.now().minusHours(24);
+            case "7d"  -> LocalDateTime.now().minusDays(7);
+            case "31d" -> LocalDateTime.now().minusDays(31);
+            default    -> null;
+        };
+
+        return approved.stream()
+                .filter(i -> type == null || i.getType() == type)
+                .filter(i -> subtype == null || i.getSubtype() == subtype)
+                .filter(i -> location == null ||
+                        (i.getLocation() != null && i.getLocation().getAddress() != null &&
+                                i.getLocation().getAddress().toLowerCase().contains(location.toLowerCase())))
+                .filter(i -> fromDate == null ||
+                        (i.getCreatedAt() != null && i.getCreatedAt().isAfter(fromDate)))
+                .toList();
     }
 }

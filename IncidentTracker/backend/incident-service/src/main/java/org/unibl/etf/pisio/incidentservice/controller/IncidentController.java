@@ -1,6 +1,8 @@
 package org.unibl.etf.pisio.incidentservice.controller;
 
 import org.unibl.etf.pisio.incidentservice.model.Incident;
+import org.unibl.etf.pisio.incidentservice.model.enums.IncidentSubtype;
+import org.unibl.etf.pisio.incidentservice.model.enums.IncidentType;
 import org.unibl.etf.pisio.incidentservice.service.IncidentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.MediaType;
@@ -54,7 +56,12 @@ public class IncidentController {
     }
 
     @GetMapping("/approved")
-    public List<Incident> getApprovedIncidents() {
-        return service.getApprovedIncidents();
+    public List<Incident> getApprovedIncidentsFiltered(
+            @RequestParam(required = false) IncidentType type,
+            @RequestParam(required = false) IncidentSubtype subtype,
+            @RequestParam(required = false) String location,
+            @RequestParam(required = false, defaultValue = "all") String period
+    ) {
+        return service.getApprovedWithFilters(type, subtype, location, period);
     }
 }

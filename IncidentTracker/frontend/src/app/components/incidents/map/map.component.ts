@@ -45,7 +45,7 @@ export class MapComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.initMap();
-    this.loadApprovedIncidents();
+    this.applyFilters();
   }
 
   private initMap(): void {
@@ -60,8 +60,16 @@ export class MapComponent implements AfterViewInit {
     }).addTo(this.map);
   }
 
-  private loadApprovedIncidents(): void {
-    this.incidentsService.getApprovedIncidents().subscribe((incidents: Incident[]) => {
+  applyFilters(): void {
+    this.incidentsService.getApprovedIncidentsFiltered(
+      this.selectedType || undefined,
+      this.selectedSubtype || undefined,
+      this.locationFilter || undefined,
+      this.selectedPeriod
+    ).subscribe((incidents: Incident[]) => {
+      this.markers.forEach(m => this.map.removeLayer(m));
+      this.markers = [];
+
       incidents.forEach(incident => {
         if (incident.location) {
           const marker = L.marker(
@@ -69,46 +77,38 @@ export class MapComponent implements AfterViewInit {
             { icon: this.orangeIcon }   
           ).addTo(this.map);
 
-        marker.bindPopup(`
-          <div style="font-family: Roboto, sans-serif; font-size: 13px; line-height: 1.4; max-width: 250px;">
-            ${incident.imagePath 
-              ? `<div style="text-align:center; margin-bottom:8px;">
-                  <img src="http://localhost:8080${incident.imagePath}" width="180" style="border-radius:6px;" />
-                </div>` 
-              : ''
-            }
+          marker.bindPopup(`
+            <div style="font-family: Roboto, sans-serif; font-size: 13px; line-height: 1.4; max-width: 250px;">
+              ${incident.imagePath 
+                ? `<div style="text-align:center; margin-bottom:8px;">
+                    <img src="http://localhost:8080${incident.imagePath}" width="180" style="border-radius:6px;" />
+                  </div>` 
+                : ''
+              }
 
-            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
-              <div>
-                <span class="material-icons" style="font-size:16px; vertical-align:middle; color:#555;">category</span>
-                ${incident.type} - ${incident.subtype ?? '-'}
+              <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                <div>
+                  <span class="material-icons" style="font-size:16px; vertical-align:middle; color:#555;">category</span>
+                  ${incident.type} - ${incident.subtype ?? '-'}
+                </div>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                <div>
+                  <span class="material-icons" style="font-size:16px; vertical-align:middle; color:#555;">calendar_month</span>
+                  ${incident.createdAt ? new Date(incident.createdAt).toLocaleDateString() : '-'}
+                </div>
+                <div>
+                  <span class="material-icons" style="font-size:16px; vertical-align:middle; color:#555;">description</span>
+                  ${incident.description ?? '-'}
+                </div>
               </div>
             </div>
-
-            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
-              <div>
-                <span class="material-icons" style="font-size:16px; vertical-align:middle; color:#555;">calendar_month</span>
-                ${incident.createdAt ? new Date(incident.createdAt).toLocaleDateString() : '-'}
-              </div>
-              <div>
-                <span class="material-icons" style="font-size:16px; vertical-align:middle; color:#555;">description</span>
-                ${incident.description ?? '-'}
-              </div>
-            </div>
-          </div>
-        `);
+          `);
 
           this.markers.push(marker);
         }
       });
-    });
-  }
-
-  applyFilters(): void {
-    console.log('Smart filter triggered:', {
-      type: this.selectedType,
-      location: this.locationFilter,
-      period: this.selectedPeriod
     });
   }
 }
