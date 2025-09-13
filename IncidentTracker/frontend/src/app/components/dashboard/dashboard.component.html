@@ -19,11 +19,13 @@
   </aside>
 
   <main class="content">
-  <header class="topbar">
-    <div class="dashboard-title">{{ pageTitle }}</div>
-    <div class="spacer"></div>
-  </header>
-
+    <header class="topbar">
+      <div class="dashboard-title">{{ pageTitle }}</div>
+      <div class="spacer"></div>
+        <button mat-raised-button class="login-button" routerLink="/login">
+          Login
+        </button>
+    </header>
     <div class="page-container">
       <router-outlet></router-outlet>
     </div>

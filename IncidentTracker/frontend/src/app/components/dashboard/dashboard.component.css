@@ -185,3 +185,22 @@ html, body {
   font-size: 18px; 
   vertical-align: middle; 
 }
+
+.login-button {
+  background-color: #F97316 !important;  
+  color: #fff !important;                
+  border: none !important;             
+  border-radius: 4px !important;         
+  font-weight: 500;
+  display: flex;               
+  justify-content: flex-start; 
+  align-items: center;         
+  gap: 6px;
+  min-width: 76px;
+  padding: 0 20px;
+  text-align: left;          
+}
+
+.login-button:hover {
+  background-color: #C2410C !important;  
+}
