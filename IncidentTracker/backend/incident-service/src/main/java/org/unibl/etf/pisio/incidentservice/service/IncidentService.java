@@ -1,6 +1,7 @@
 package org.unibl.etf.pisio.incidentservice.service;
 
 import org.unibl.etf.pisio.incidentservice.model.Incident;
+import org.unibl.etf.pisio.incidentservice.model.enums.IncidentStatus;
 import org.unibl.etf.pisio.incidentservice.repository.IncidentRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -60,5 +61,9 @@ public class IncidentService {
             return true;
         }
         return false;
+    }
+
+    public List<Incident> getApprovedIncidents() {
+        return repository.findByStatus(IncidentStatus.APPROVED);
     }
 }

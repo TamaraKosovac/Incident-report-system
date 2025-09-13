@@ -5,6 +5,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
+import { IncidentsService } from '../../../services/incidents.service';
+import { Incident } from '../../../models/incident.model';
 
 @Component({
   selector: 'app-map',
@@ -22,6 +24,7 @@ import { FormsModule } from '@angular/forms';
 export class MapComponent implements AfterViewInit {
 
   private map!: L.Map;
+  private markers: L.Marker[] = [];
 
   incidentTypes: string[] = ['Traffic Accident', 'Fire', 'Flood', 'Other'];
   selectedType: string = '';
@@ -29,8 +32,20 @@ export class MapComponent implements AfterViewInit {
   locationFilter: string = '';
   selectedPeriod: string = 'all';
 
+  private orangeIcon: L.DivIcon = L.divIcon({
+    html: `<span class="material-icons" 
+                 style="color: #e67e22; font-size: 30px;">location_on</span>`,
+    className: '',
+    iconSize: [30, 30],
+    iconAnchor: [15, 30],
+    popupAnchor: [0, -30]
+  });
+
+  constructor(private incidentsService: IncidentsService) {}
+
   ngAfterViewInit(): void {
     this.initMap();
+    this.loadApprovedIncidents();
   }
 
   private initMap(): void {
@@ -43,6 +58,50 @@ export class MapComponent implements AfterViewInit {
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
+  }
+
+  private loadApprovedIncidents(): void {
+    this.incidentsService.getApprovedIncidents().subscribe((incidents: Incident[]) => {
+      incidents.forEach(incident => {
+        if (incident.location) {
+          const marker = L.marker(
+            [incident.location.latitude, incident.location.longitude],
+            { icon: this.orangeIcon }   
+          ).addTo(this.map);
+
+        marker.bindPopup(`
+          <div style="font-family: Roboto, sans-serif; font-size: 13px; line-height: 1.4; max-width: 250px;">
+            ${incident.imagePath 
+              ? `<div style="text-align:center; margin-bottom:8px;">
+                  <img src="http://localhost:8080${incident.imagePath}" width="180" style="border-radius:6px;" />
+                </div>` 
+              : ''
+            }
+
+            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+              <div>
+                <span class="material-icons" style="font-size:16px; vertical-align:middle; color:#555;">category</span>
+                ${incident.type} - ${incident.subtype ?? '-'}
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+              <div>
+                <span class="material-icons" style="font-size:16px; vertical-align:middle; color:#555;">calendar_month</span>
+                ${incident.createdAt ? new Date(incident.createdAt).toLocaleDateString() : '-'}
+              </div>
+              <div>
+                <span class="material-icons" style="font-size:16px; vertical-align:middle; color:#555;">description</span>
+                ${incident.description ?? '-'}
+              </div>
+            </div>
+          </div>
+        `);
+
+          this.markers.push(marker);
+        }
+      });
+    });
   }
 
   applyFilters(): void {

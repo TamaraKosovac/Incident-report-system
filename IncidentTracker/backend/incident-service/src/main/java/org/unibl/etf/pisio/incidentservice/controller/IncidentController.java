@@ -52,4 +52,9 @@ public class IncidentController {
                 ? ResponseEntity.noContent().build()
                 : ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/approved")
+    public List<Incident> getApprovedIncidents() {
+        return service.getApprovedIncidents();
+    }
 }

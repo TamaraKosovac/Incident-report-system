@@ -45,4 +45,8 @@ export class IncidentsService {
 
     return this.http.post<Incident>(this.apiUrl, formData);
   }
+
+  getApprovedIncidents(): Observable<Incident[]> {
+    return this.http.get<Incident[]>(`${this.apiUrl}/approved`);
+  }
 }
