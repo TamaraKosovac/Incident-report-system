@@ -1,5 +1,9 @@
 package org.unibl.etf.pisio.userservice.controller;
 
+import org.springframework.http.HttpStatus;
+import org.unibl.etf.pisio.userservice.dto.RegisterDTO;
+import org.unibl.etf.pisio.userservice.dto.UserDTO;
+import org.unibl.etf.pisio.userservice.model.Role;
 import org.unibl.etf.pisio.userservice.model.User;
 import org.unibl.etf.pisio.userservice.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -29,11 +33,6 @@ public class UserController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping
-    public User create(@RequestBody User user) {
-        return service.create(user);
-    }
-
     @PutMapping("/{id}")
     public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User user) {
         return service.update(id, user)
@@ -53,5 +52,28 @@ public class UserController {
         return service.getByUsername(username)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    public ResponseEntity<UserDTO> create(@RequestBody RegisterDTO dto) {
+        User user = new User();
+        user.setUsername(dto.getUsername());
+        user.setPassword(dto.getPassword());
+        user.setRole(Role.USER);
+        user.setFirstName(dto.getFirstName());
+        user.setLastName(dto.getLastName());
+        user.setEmail(dto.getEmail());
+
+        User saved = service.create(user);
+
+        UserDTO response = new UserDTO();
+        response.setId(saved.getId());
+        response.setUsername(saved.getUsername());
+        response.setRole(saved.getRole().name());
+        response.setFirstName(saved.getFirstName());
+        response.setLastName(saved.getLastName());
+        response.setEmail(saved.getEmail());
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }

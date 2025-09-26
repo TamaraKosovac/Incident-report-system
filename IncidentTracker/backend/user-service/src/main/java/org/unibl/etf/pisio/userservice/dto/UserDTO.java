@@ -1,4 +1,4 @@
-package org.unibl.etf.pisio.authservice.dto;
+package org.unibl.etf.pisio.userservice.dto;
 
 import lombok.Data;
 
@@ -6,7 +6,6 @@ import lombok.Data;
 public class UserDTO {
     private Long id;
     private String username;
-    private String password;
     private String role;
     private String firstName;
     private String lastName;
