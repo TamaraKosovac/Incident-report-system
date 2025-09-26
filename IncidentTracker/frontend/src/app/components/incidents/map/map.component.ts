@@ -150,7 +150,13 @@ export class MapComponent implements AfterViewInit {
 
               <div style="margin-bottom: 6px;">
                 <span class="material-icons" style="font-size:16px; vertical-align:middle; color:#555;">calendar_month</span>
-                ${incident.createdAt ? new Date(incident.createdAt).toLocaleDateString() : '-'}
+                ${incident.createdAt 
+                  ? new Date(incident.createdAt).toLocaleDateString('sr-Latn-BA', { 
+                      day: '2-digit', 
+                      month: '2-digit', 
+                      year: 'numeric' 
+                    }) 
+                  : '-'}
               </div>
 
               <div>

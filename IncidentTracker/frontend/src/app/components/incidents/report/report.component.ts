@@ -43,7 +43,9 @@ export class ReportComponent implements AfterViewInit {
     }).addTo(this.map);
 
     this.map.on('click', (e: L.LeafletMouseEvent) => {
-      this.openReportForm(e.latlng.lat, e.latlng.lng);
+      const lat = Number(e.latlng.lat.toFixed(6));
+      const lng = Number(e.latlng.lng.toFixed(6));
+      this.openReportForm(lat, lng);
     });
   }
 

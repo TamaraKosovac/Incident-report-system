@@ -119,6 +119,22 @@ export class ReportFormComponent {
     this.incident.location.longitude = data.longitude;
   }
 
+  ngOnInit(): void {
+    if (!this.incident.location.latitude || !this.incident.location.longitude) {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          pos => {
+            this.incident.location.latitude = pos.coords.latitude;
+            this.incident.location.longitude = pos.coords.longitude;
+          },
+          () => {
+            console.warn('Geolocation not allowed or failed.');
+          }
+        );
+      }
+    }
+  }
+
   get availableSubtypes(): IncidentSubtype[] {
     return this.incident.type
       ? this.subtypesByType[this.incident.type as IncidentType]
