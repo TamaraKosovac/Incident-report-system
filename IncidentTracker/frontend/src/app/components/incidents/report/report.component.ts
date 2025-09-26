@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, inject } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as L from 'leaflet';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -13,7 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './report.component.html',
   styleUrls: ['./report.component.css']
 })
-export class ReportComponent implements AfterViewInit {
+export class ReportComponent implements AfterViewInit, OnDestroy {
   private map!: L.Map;
   private marker!: L.Marker;
 
@@ -32,7 +32,18 @@ export class ReportComponent implements AfterViewInit {
     this.initMap();
   }
 
+  ngOnDestroy(): void {
+    if (this.map) {
+      this.map.remove(); 
+    }
+  }
+
   private initMap() {
+    const existingMap = L.DomUtil.get('map');
+    if (existingMap != null) {
+      existingMap.innerHTML = '';
+    }
+
     this.map = L.map('map', {
       center: [44.78, 17.19],
       zoom: 13

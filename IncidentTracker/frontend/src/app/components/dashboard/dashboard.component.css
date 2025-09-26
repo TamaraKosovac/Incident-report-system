@@ -186,21 +186,31 @@ html, body {
   vertical-align: middle; 
 }
 
-.login-button {
-  background-color: #F97316 !important;  
-  color: #fff !important;                
-  border: none !important;             
-  border-radius: 4px !important;         
+.login-outline-button {
+  background-color: #fff !important;
+  color: #F97316 !important;
+  border: 2px solid #F97316 !important;
+  border-radius: 4px !important;
   font-weight: 500;
-  display: flex;               
-  justify-content: flex-start; 
-  align-items: center;         
-  gap: 6px;
   min-width: 76px;
   padding: 0 20px;
-  text-align: left;          
 }
 
-.login-button:hover {
-  background-color: #C2410C !important;  
+.login-outline-button:hover {
+  background-color: #FFF4EC !important;
+}
+
+.register-button {
+  background-color: #F97316 !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 4px !important;
+  font-weight: 500;
+  min-width: 76px;
+  padding: 0 20px;
+  margin-left: 10px;
+}
+
+.register-button:hover {
+  background-color: #C2410C !important;
 }

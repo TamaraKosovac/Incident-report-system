@@ -9,7 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-register',
   standalone: true,
   imports: [
     CommonModule,
@@ -20,25 +20,35 @@ import { MatIconModule } from '@angular/material/icon';
     MatButtonModule,
     MatIconModule
   ],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css']
 })
-export class LoginComponent {
+export class RegisterComponent {
   username = '';
   password = '';
-  errorMessage = '';
+  firstName = '';
+  lastName = '';
+  email = '';
   hide = true;
+  errorMessage = '';
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  login() {
-    this.authService.login(this.username, this.password).subscribe({
-      next: (response) => {
-        this.authService.setUser(response);
-        this.router.navigate(['/moderator']);
+  register() {
+    const newUser = {
+      username: this.username,
+      password: this.password,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      email: this.email
+    };
+
+    this.authService.register(newUser).subscribe({
+      next: () => {
+        this.router.navigate(['/login']);
       },
       error: () => {
-        this.errorMessage = 'Wrong username or password!';
+        this.errorMessage = 'Registration failed. Try again.';
       }
     });
   }

@@ -11,13 +11,23 @@ export interface User {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080/api/auth/login';
+  private apiUrl = 'http://localhost:8080/api/auth';  
   private userKey = 'user';
 
   constructor(private http: HttpClient) {}
 
   login(username: string, password: string): Observable<User> {
-    return this.http.post<User>(this.apiUrl, { username, password });
+    return this.http.post<User>(`${this.apiUrl}/login`, { username, password });
+  }
+
+  register(newUser: {
+    username: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+  }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/register`, newUser);
   }
 
   setUser(user: User): void {

@@ -81,9 +81,9 @@
 
 .error-msg { color: red; margin-top: 12px; text-align: center; }
 
-.modern-field .mat-mdc-form-field-icon-suffix { margin-left: 4px; }
-.modern-field .mat-mdc-icon-button.mat-mdc-button-base { width: 36px; height: 36px; }
-.modern-field .mat-mdc-icon-button .mat-icon { font-size: 20px; line-height: 20px; color: #6b7280; }
+.modern-field .mat-mdc-form-field-icon-suffix { margin-left: 4px;}
+.modern-field .mat-mdc-icon-button.mat-mdc-button-base { width: 40px; height: 40px; }
+.modern-field .mat-mdc-icon-button .mat-icon { font-size: 23px; line-height: 20px; color: #000; }
 
 .full-width .mat-mdc-text-field-wrapper {
   background: #f5f7f8;
@@ -128,4 +128,23 @@
 :host ::ng-deep .mat-mdc-form-field-icon-suffix {
   margin-right: 10px !important;
   margin-bottom: 4px !important;
+}
+
+.register-prompt {
+  text-align: center;
+  font-size: 14px;
+  color: #444;
+}
+
+.register-link {
+  margin-left: 6px;
+  color: #F97316;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.register-link:hover {
+  color: #C2410C;
+  text-decoration: underline;
 }
