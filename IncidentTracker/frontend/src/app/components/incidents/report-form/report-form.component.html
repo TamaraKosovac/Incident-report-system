@@ -44,10 +44,9 @@
             placeholder="Type"
             required
           >
-            <mat-option value="FIRE">Fire</mat-option>
-            <mat-option value="FLOOD">Flood</mat-option>
-            <mat-option value="ACCIDENT">Accident</mat-option>
-            <mat-option value="CRIME">Crime</mat-option>
+            <mat-option *ngFor="let type of incidentTypes" [value]="type">
+              {{ type }}
+            </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -60,11 +59,8 @@
             [(ngModel)]="incident.subtype"
             placeholder="Subtype"
           >
-            <mat-option
-              *ngFor="let sub of subtypesByType[incident.type]"
-              [value]="sub"
-            >
-              {{ subtypeLabels[sub] }}
+            <mat-option *ngFor="let sub of availableSubtypes" [value]="sub">
+              {{ sub }}
             </mat-option>
           </mat-select>
         </mat-form-field>

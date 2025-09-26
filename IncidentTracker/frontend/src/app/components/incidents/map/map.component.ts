@@ -7,6 +7,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { IncidentsService } from '../../../services/incidents.service';
 import { Incident } from '../../../models/incident.model';
+import { IncidentType } from '../../../models/enums/incident-type.enum';
+import { IncidentSubtype } from '../../../models/enums/incident-subtype.enum';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-map',
@@ -18,7 +21,8 @@ import { Incident } from '../../../models/incident.model';
     MatInputModule,
     MatIconModule,
     MatSelectModule,
-    FormsModule
+    FormsModule,
+    CommonModule
   ]
 })
 export class MapComponent implements AfterViewInit {
@@ -26,9 +30,62 @@ export class MapComponent implements AfterViewInit {
   private map!: L.Map;
   private markers: L.Marker[] = [];
 
-  incidentTypes: string[] = ['Traffic Accident', 'Fire', 'Flood', 'Other'];
-  selectedType: string = '';
-  selectedSubtype: string = '';
+  incidentTypes = Object.values(IncidentType);
+
+  subtypesByType: Record<IncidentType, IncidentSubtype[]> = {
+    [IncidentType.FIRE]: [
+      IncidentSubtype.BUILDING_FIRE,
+      IncidentSubtype.FOREST_FIRE,
+      IncidentSubtype.VEHICLE_FIRE,
+      IncidentSubtype.ELECTRICAL_FIRE,
+      IncidentSubtype.WASTE_FIRE
+    ],
+    [IncidentType.FLOOD]: [
+      IncidentSubtype.RIVER_FLOOD,
+      IncidentSubtype.URBAN_FLOOD,
+      IncidentSubtype.SEWER_OVERFLOW,
+      IncidentSubtype.BASEMENT_FLOOD
+    ],
+    [IncidentType.ACCIDENT]: [
+      IncidentSubtype.CAR_ACCIDENT,
+      IncidentSubtype.BIKE_ACCIDENT,
+      IncidentSubtype.PEDESTRIAN_ACCIDENT,
+      IncidentSubtype.WORK_ACCIDENT,
+      IncidentSubtype.SPORT_ACCIDENT
+    ],
+    [IncidentType.CRIME]: [
+      IncidentSubtype.ROBBERY,
+      IncidentSubtype.ASSAULT,
+      IncidentSubtype.VANDALISM,
+      IncidentSubtype.BURGLARY,
+      IncidentSubtype.DRUG_ABUSE,
+      IncidentSubtype.ILLEGAL_DUMPING
+    ],
+    [IncidentType.INFRASTRUCTURE]: [
+      IncidentSubtype.POWER_OUTAGE,
+      IncidentSubtype.WATER_OUTAGE,
+      IncidentSubtype.GAS_LEAK,
+      IncidentSubtype.ROAD_DAMAGE,
+      IncidentSubtype.BROKEN_TRAFFIC_LIGHT,
+      IncidentSubtype.BRIDGE_DAMAGE
+    ],
+    [IncidentType.HEALTH]: [
+      IncidentSubtype.MEDICAL_EMERGENCY,
+      IncidentSubtype.EPIDEMIC,
+      IncidentSubtype.ANIMAL_ATTACK,
+      IncidentSubtype.MISSING_PERSON
+    ],
+    [IncidentType.ENVIRONMENT]: [
+      IncidentSubtype.AIR_POLLUTION,
+      IncidentSubtype.WATER_POLLUTION,
+      IncidentSubtype.NOISE_POLLUTION,
+      IncidentSubtype.ILLEGAL_LOGGING,
+      IncidentSubtype.ANIMAL_CRUELTY
+    ]
+  };
+
+  selectedType: IncidentType | '' = '';
+  selectedSubtype: IncidentSubtype | '' = '';
   locationFilter: string = '';
   selectedPeriod: string = 'all';
 
@@ -86,22 +143,19 @@ export class MapComponent implements AfterViewInit {
                 : ''
               }
 
-              <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
-                <div>
-                  <span class="material-icons" style="font-size:16px; vertical-align:middle; color:#555;">category</span>
-                  ${incident.type} - ${incident.subtype ?? '-'}
-                </div>
+              <div style="margin-bottom: 6px;">
+                <span class="material-icons" style="font-size:16px; vertical-align:middle; color:#555;">category</span>
+                ${incident.type} - ${incident.subtype ?? '-'}
               </div>
 
-              <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
-                <div>
-                  <span class="material-icons" style="font-size:16px; vertical-align:middle; color:#555;">calendar_month</span>
-                  ${incident.createdAt ? new Date(incident.createdAt).toLocaleDateString() : '-'}
-                </div>
-                <div>
-                  <span class="material-icons" style="font-size:16px; vertical-align:middle; color:#555;">description</span>
-                  ${incident.description ?? '-'}
-                </div>
+              <div style="margin-bottom: 6px;">
+                <span class="material-icons" style="font-size:16px; vertical-align:middle; color:#555;">calendar_month</span>
+                ${incident.createdAt ? new Date(incident.createdAt).toLocaleDateString() : '-'}
+              </div>
+
+              <div>
+                <span class="material-icons" style="font-size:16px; vertical-align:middle; color:#555;">description</span>
+                ${incident.description ?? '-'}
               </div>
             </div>
           `);
@@ -110,5 +164,11 @@ export class MapComponent implements AfterViewInit {
         }
       });
     });
+  }
+
+  get availableSubtypes(): IncidentSubtype[] {
+    return this.selectedType
+      ? this.subtypesByType[this.selectedType as IncidentType]
+      : [];
   }
 }

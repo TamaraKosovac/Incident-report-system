@@ -1,29 +1,24 @@
 <div class="map-container">
 
   <div class="filter-container">
-
     <mat-form-field appearance="outline" class="filter-field">
       <mat-icon matPrefix>category</mat-icon>
       <mat-select [(ngModel)]="selectedType" (selectionChange)="applyFilters()" placeholder="Incident Type">
-        <mat-option value="FIRE">Fire</mat-option>
-        <mat-option value="FLOOD">Flood</mat-option>
-        <mat-option value="ACCIDENT">Accident</mat-option>
-        <mat-option value="CRIME">Crime</mat-option>
+        <mat-option *ngFor="let type of incidentTypes" [value]="type">
+          {{ type }}
+        </mat-option>
         <mat-option value="">All types</mat-option>
       </mat-select>
     </mat-form-field>
-
     <mat-form-field appearance="outline" class="filter-field">
       <mat-icon matPrefix>label</mat-icon>
       <mat-select [(ngModel)]="selectedSubtype" (selectionChange)="applyFilters()" placeholder="Incident Subtype">
-        <mat-option value="CAR_ACCIDENT">Car accident</mat-option>
-        <mat-option value="BUILDING_FIRE">Building fire</mat-option>
-        <mat-option value="ROBBERY">Robbery</mat-option>
-        <mat-option value="ASSAULT">Assault</mat-option>
+        <mat-option *ngFor="let sub of availableSubtypes" [value]="sub">
+          {{ sub }}
+        </mat-option>
         <mat-option value="">All subtypes</mat-option>
       </mat-select>
     </mat-form-field>
-
     <mat-form-field appearance="outline" class="filter-field">
       <mat-icon matPrefix>place</mat-icon>
       <input 
@@ -32,7 +27,6 @@
         placeholder="Enter location"
         (ngModelChange)="applyFilters()" />
     </mat-form-field>
-
     <mat-form-field appearance="outline" class="filter-field">
       <mat-icon matPrefix>calendar_month</mat-icon>
       <mat-select [(ngModel)]="selectedPeriod" (selectionChange)="applyFilters()" placeholder="Time Period">
@@ -42,8 +36,6 @@
         <mat-option value="all">All reports</mat-option>
       </mat-select>
     </mat-form-field>
-
   </div>
-
   <div id="incidentMap" class="map"></div>
 </div>

@@ -8,8 +8,21 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'; 
+import { IncidentType } from '../../../models/enums/incident-type.enum';
 import { IncidentSubtype } from '../../../models/enums/incident-subtype.enum';
 import { IncidentsService } from '../../../services/incidents.service';
+
+interface IncidentForm {
+  type: IncidentType | '';
+  subtype: IncidentSubtype | '';
+  description: string;
+  image: File | null;
+  location: {
+    address: string;
+    latitude: number | null;
+    longitude: number | null;
+  };
+}
 
 @Component({
   selector: 'app-report-form',
@@ -28,7 +41,7 @@ import { IncidentsService } from '../../../services/incidents.service';
   styleUrls: ['./report-form.component.css']
 })
 export class ReportFormComponent {
-  incident: any = {
+  incident: IncidentForm = {
     type: '',
     subtype: '',
     description: '',
@@ -42,19 +55,58 @@ export class ReportFormComponent {
 
   selectedImage: File | null = null;
   selectedImagePreview: string | null = null;
+  incidentTypes = Object.values(IncidentType);
 
-  subtypesByType: Record<string, IncidentSubtype[]> = {
-    ACCIDENT: [IncidentSubtype.CAR_ACCIDENT],
-    FIRE: [IncidentSubtype.BUILDING_FIRE],
-    CRIME: [IncidentSubtype.ROBBERY, IncidentSubtype.ASSAULT],
-    FLOOD: []
-  };
-
-  subtypeLabels: Record<IncidentSubtype, string> = {
-    [IncidentSubtype.CAR_ACCIDENT]: 'Car Accident',
-    [IncidentSubtype.BUILDING_FIRE]: 'Building Fire',
-    [IncidentSubtype.ROBBERY]: 'Robbery',
-    [IncidentSubtype.ASSAULT]: 'Assault'
+  subtypesByType: Record<IncidentType, IncidentSubtype[]> = {
+    [IncidentType.FIRE]: [
+      IncidentSubtype.BUILDING_FIRE,
+      IncidentSubtype.FOREST_FIRE,
+      IncidentSubtype.VEHICLE_FIRE,
+      IncidentSubtype.ELECTRICAL_FIRE,
+      IncidentSubtype.WASTE_FIRE
+    ],
+    [IncidentType.FLOOD]: [
+      IncidentSubtype.RIVER_FLOOD,
+      IncidentSubtype.URBAN_FLOOD,
+      IncidentSubtype.SEWER_OVERFLOW,
+      IncidentSubtype.BASEMENT_FLOOD
+    ],
+    [IncidentType.ACCIDENT]: [
+      IncidentSubtype.CAR_ACCIDENT,
+      IncidentSubtype.BIKE_ACCIDENT,
+      IncidentSubtype.PEDESTRIAN_ACCIDENT,
+      IncidentSubtype.WORK_ACCIDENT,
+      IncidentSubtype.SPORT_ACCIDENT
+    ],
+    [IncidentType.CRIME]: [
+      IncidentSubtype.ROBBERY,
+      IncidentSubtype.ASSAULT,
+      IncidentSubtype.VANDALISM,
+      IncidentSubtype.BURGLARY,
+      IncidentSubtype.DRUG_ABUSE,
+      IncidentSubtype.ILLEGAL_DUMPING
+    ],
+    [IncidentType.INFRASTRUCTURE]: [
+      IncidentSubtype.POWER_OUTAGE,
+      IncidentSubtype.WATER_OUTAGE,
+      IncidentSubtype.GAS_LEAK,
+      IncidentSubtype.ROAD_DAMAGE,
+      IncidentSubtype.BROKEN_TRAFFIC_LIGHT,
+      IncidentSubtype.BRIDGE_DAMAGE
+    ],
+    [IncidentType.HEALTH]: [
+      IncidentSubtype.MEDICAL_EMERGENCY,
+      IncidentSubtype.EPIDEMIC,
+      IncidentSubtype.ANIMAL_ATTACK,
+      IncidentSubtype.MISSING_PERSON
+    ],
+    [IncidentType.ENVIRONMENT]: [
+      IncidentSubtype.AIR_POLLUTION,
+      IncidentSubtype.WATER_POLLUTION,
+      IncidentSubtype.NOISE_POLLUTION,
+      IncidentSubtype.ILLEGAL_LOGGING,
+      IncidentSubtype.ANIMAL_CRUELTY
+    ]
   };
 
   constructor(
@@ -67,8 +119,15 @@ export class ReportFormComponent {
     this.incident.location.longitude = data.longitude;
   }
 
+  get availableSubtypes(): IncidentSubtype[] {
+    return this.incident.type
+      ? this.subtypesByType[this.incident.type as IncidentType]
+      : [];
+  }
+
   onTypeChange() {
-    const availableSubtypes = this.subtypesByType[this.incident.type] || [];
+    const type = this.incident.type as IncidentType;
+    const availableSubtypes = this.subtypesByType[type] || [];
     this.incident.subtype =
       availableSubtypes.length === 1 ? availableSubtypes[0] : '';
   }
@@ -122,7 +181,7 @@ export class ReportFormComponent {
         });
         this.dialogRef.close(res);
       },
-      error: (err) => {
+      error: () => {
         this.snackBar.open('Failed to report incident.', '', {
           duration: 3000,
           horizontalPosition: 'end',
