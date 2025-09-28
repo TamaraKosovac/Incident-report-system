@@ -19,9 +19,11 @@ import java.util.UUID;
 public class IncidentService {
 
     private final IncidentRepository repository;
+    private final TranslationService translationService;
 
-    public IncidentService(IncidentRepository repository) {
+    public IncidentService(IncidentRepository repository, TranslationService translationService) {
         this.repository = repository;
+        this.translationService = translationService;
     }
 
     public List<Incident> getAll() {
@@ -43,7 +45,10 @@ public class IncidentService {
 
             incident.setImagePath("/uploads/" + fileName);
         }
-
+        if (incident.getDescription() != null && !incident.getDescription().isBlank()) {
+            String translated = translationService.translate(incident.getDescription(), "sr", "en");
+            incident.setDescriptionEn(translated);
+        }
         return repository.save(incident);
     }
 
@@ -54,6 +59,10 @@ public class IncidentService {
             existing.setStatus(updated.getStatus());
             existing.setDescription(updated.getDescription());
             existing.setLocation(updated.getLocation());
+            if (updated.getDescription() != null && !updated.getDescription().isBlank()) {
+                String translated = translationService.translate(updated.getDescription(), "sr", "en");
+                existing.setDescriptionEn(translated);
+            }
             return repository.save(existing);
         });
     }

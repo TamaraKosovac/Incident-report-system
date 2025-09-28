@@ -22,6 +22,8 @@ public class Incident {
     private IncidentStatus status = IncidentStatus.REPORTED;
     @Column(length = 1000)
     private String description;
+    @Column(length = 1000)
+    private String descriptionEn;
     @Embedded
     private Location location;
     private String imagePath;
