@@ -15,6 +15,10 @@
         <mat-icon>map</mat-icon>
         <span>Incident map</span>
       </a>
+      <a *ngIf="isLoggedIn" routerLink="my-incidents" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <mat-icon>list</mat-icon>
+        <span>My incidents</span>
+      </a>
     </nav>
     <div class="bottom" *ngIf="isLoggedIn">
       <a (click)="onLogout()">

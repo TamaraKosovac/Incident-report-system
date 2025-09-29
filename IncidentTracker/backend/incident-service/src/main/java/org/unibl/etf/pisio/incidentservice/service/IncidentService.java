@@ -100,4 +100,8 @@ public class IncidentService {
                         (i.getCreatedAt() != null && i.getCreatedAt().isAfter(fromDate)))
                 .toList();
     }
+
+    public List<Incident> getByUserId(Long userId) {
+        return repository.findByUserId(userId);
+    }
 }

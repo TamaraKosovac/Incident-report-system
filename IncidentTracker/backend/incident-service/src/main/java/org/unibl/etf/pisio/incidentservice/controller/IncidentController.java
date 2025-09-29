@@ -70,4 +70,9 @@ public class IncidentController {
     ) {
         return service.getApprovedWithFilters(type, subtype, location, period);
     }
+
+    @GetMapping("/my")
+    public List<Incident> getMyIncidents(@RequestHeader("X-User-Id") Long userId) {
+        return service.getByUserId(userId);
+    }
 }

@@ -15,6 +15,10 @@ export class IncidentsService {
     return this.http.get<Incident[]>(this.apiUrl);
   }
 
+  getMyIncidents(): Observable<Incident[]> {
+    return this.http.get<Incident[]>(`${this.apiUrl}/my`);
+  }
+
   createIncident(incident: any): Observable<Incident> {
     const formData = new FormData();
     formData.append('type', incident.type);
