@@ -6,7 +6,7 @@ server:
   port: 8083
 
 jwt:
-  secret: "tajna12345tajna12345tajna12345tajna12345tajna12345tajna12345tajna12345tajna12345"
+  secret: ${JWT_SECRET}
   expiration: 86400000
 
 user-service:

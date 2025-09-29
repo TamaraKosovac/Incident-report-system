@@ -35,7 +35,7 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
         }
 
-        String token = jwtUtils.generateJwtToken(user.getUsername(), List.of(user.getRole()));
+        String token = jwtUtils.generateJwtToken(user.getId(), user.getUsername(), List.of(user.getRole()));
 
         return ResponseEntity.ok(new JwtDTO(token, "Bearer", user.getUsername(), List.of(user.getRole())));
     }
