@@ -28,4 +28,5 @@ public class Incident {
     private Location location;
     private String imagePath;
     private LocalDateTime createdAt = LocalDateTime.now();
+    private Long userId;
 }

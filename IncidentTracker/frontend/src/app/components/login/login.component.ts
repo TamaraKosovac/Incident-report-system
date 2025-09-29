@@ -34,7 +34,7 @@ export class LoginComponent {
   login() {
     this.authService.login(this.username, this.password).subscribe({
       next: (response) => {
-        this.authService.setUser(response);
+        this.authService.setToken(response.token);
         this.router.navigate(['/moderator']);
       },
       error: () => {

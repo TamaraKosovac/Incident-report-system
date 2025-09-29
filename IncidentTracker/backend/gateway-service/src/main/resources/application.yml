@@ -3,6 +3,8 @@ spring:
     name: gateway-service
   cloud:
     gateway:
+      default-filters:
+        - PreserveHostHeader
       routes:
         - id: incident-service
           uri: http://localhost:8081
@@ -22,3 +24,7 @@ spring:
             - Path=/api/auth/**
 server:
   port: 8080
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: 86400000

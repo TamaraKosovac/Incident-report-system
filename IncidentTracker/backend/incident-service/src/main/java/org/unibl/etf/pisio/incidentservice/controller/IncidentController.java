@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -37,7 +36,14 @@ public class IncidentController {
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Incident> create(
             @ModelAttribute Incident incident,
-            @RequestPart(value = "image", required = false) MultipartFile image) throws IOException {
+            @RequestPart(value = "image", required = false) MultipartFile image,
+            @RequestHeader(value = "X-User-Id", required = false) String userId
+    ) throws IOException {
+
+        if (userId != null) {
+            incident.setUserId(Long.valueOf(userId));
+        }
+
         return ResponseEntity.ok(service.create(incident, image));
     }
 
