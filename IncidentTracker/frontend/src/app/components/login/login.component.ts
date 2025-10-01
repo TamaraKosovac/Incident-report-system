@@ -35,7 +35,18 @@ export class LoginComponent {
     this.authService.login(this.username, this.password).subscribe({
       next: (response) => {
         this.authService.setToken(response.token);
-        this.router.navigate(['/moderator']);
+
+        const role = this.authService.getRole(); 
+
+        if (role === 'MODERATOR') {
+          this.router.navigate(['/moderator-map']);
+        } else if (role === 'USER') {
+          this.router.navigate(['/report']);
+        } else if (role === 'ADMIN') {
+          this.router.navigate(['/admin']); 
+        } else {
+          this.router.navigate(['/']); 
+        }
       },
       error: () => {
         this.errorMessage = 'Wrong username or password!';

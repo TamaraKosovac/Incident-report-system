@@ -19,6 +19,11 @@
         <mat-icon>list</mat-icon>
         <span>My incidents</span>
       </a>
+      <a *ngIf="isLoggedIn && userRole === Role.MODERATOR" 
+        routerLink="moderator-map" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <mat-icon>check_circle</mat-icon>
+        <span>Approve incidents</span>
+      </a>
     </nav>
     <div class="bottom" *ngIf="isLoggedIn">
       <a (click)="onLogout()">
