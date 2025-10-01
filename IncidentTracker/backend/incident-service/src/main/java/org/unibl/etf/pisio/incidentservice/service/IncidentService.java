@@ -1,5 +1,9 @@
 package org.unibl.etf.pisio.incidentservice.service;
 
+import org.springframework.http.*;
+import org.springframework.web.client.RestTemplate;
+import org.unibl.etf.pisio.incidentservice.dto.IncidentNlpRequest;
+import org.unibl.etf.pisio.incidentservice.dto.IncidentNlpResponse;
 import org.unibl.etf.pisio.incidentservice.model.Incident;
 import org.unibl.etf.pisio.incidentservice.model.enums.IncidentStatus;
 import org.unibl.etf.pisio.incidentservice.model.enums.IncidentSubtype;
@@ -45,10 +49,22 @@ public class IncidentService {
 
             incident.setImagePath("/uploads/" + fileName);
         }
+
         if (incident.getDescription() != null && !incident.getDescription().isBlank()) {
             String translated = translationService.translate(incident.getDescription(), "sr", "en");
             incident.setDescriptionEn(translated);
         }
+
+        incident.setStatus(IncidentStatus.REPORTED);
+
+        List<String> existingDescriptions = repository.findAll().stream()
+                .map(Incident::getDescription)
+                .filter(desc -> desc != null && !desc.isBlank())
+                .toList();
+
+        IncidentStatus analyzedStatus = analyzeWithNlp(incident.getDescription(), existingDescriptions);
+        incident.setStatus(analyzedStatus);
+
         return repository.save(incident);
     }
 
@@ -103,5 +119,26 @@ public class IncidentService {
 
     public List<Incident> getByUserId(Long userId) {
         return repository.findByUserId(userId);
+    }
+
+    private IncidentStatus analyzeWithNlp(String description, List<String> existing) {
+        RestTemplate restTemplate = new RestTemplate();
+        String nlpUrl = "http://localhost:5000/analyze";
+
+        IncidentNlpRequest requestBody = new IncidentNlpRequest(description, existing);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<IncidentNlpRequest> requestEntity = new HttpEntity<>(requestBody, headers);
+
+        try {
+            ResponseEntity<IncidentNlpResponse> response =
+                    restTemplate.exchange(nlpUrl, HttpMethod.POST, requestEntity, IncidentNlpResponse.class);
+
+            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+                return response.getBody().getStatus();
+            }
+        } catch (Exception ignored) {}
+        return IncidentStatus.PENDING;
     }
 }
