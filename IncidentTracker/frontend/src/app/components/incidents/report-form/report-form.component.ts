@@ -115,8 +115,9 @@ export class ReportFormComponent {
     private incidentsService: IncidentsService,
     private snackBar: MatSnackBar 
   ) {
-    this.incident.location.latitude = data.latitude;
-    this.incident.location.longitude = data.longitude;
+    this.incident.location.latitude = data.latitude ? Number(data.latitude.toFixed(5)) : null;
+    this.incident.location.longitude = data.longitude ? Number(data.longitude.toFixed(5)) : null;
+
   }
 
   ngOnInit(): void {
@@ -124,8 +125,8 @@ export class ReportFormComponent {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           pos => {
-            this.incident.location.latitude = pos.coords.latitude;
-            this.incident.location.longitude = pos.coords.longitude;
+            this.incident.location.latitude = Number(pos.coords.latitude.toFixed(5));
+            this.incident.location.longitude = Number(pos.coords.longitude.toFixed(5));
           },
           () => {
             console.warn('Geolocation not allowed or failed.');

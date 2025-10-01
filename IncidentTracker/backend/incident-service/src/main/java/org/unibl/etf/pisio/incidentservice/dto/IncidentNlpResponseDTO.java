@@ -6,6 +6,6 @@ import org.unibl.etf.pisio.incidentservice.model.enums.IncidentStatus;
 
 @Data
 @AllArgsConstructor
-public class IncidentNlpResponse {
+public class IncidentNlpResponseDTO {
     private IncidentStatus status;
 }

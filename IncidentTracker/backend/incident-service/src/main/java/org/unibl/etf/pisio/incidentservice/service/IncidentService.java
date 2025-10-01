@@ -2,8 +2,9 @@ package org.unibl.etf.pisio.incidentservice.service;
 
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
-import org.unibl.etf.pisio.incidentservice.dto.IncidentNlpRequest;
-import org.unibl.etf.pisio.incidentservice.dto.IncidentNlpResponse;
+import org.unibl.etf.pisio.incidentservice.dto.IncidentDTO;
+import org.unibl.etf.pisio.incidentservice.dto.IncidentNlpRequestDTO;
+import org.unibl.etf.pisio.incidentservice.dto.IncidentNlpResponseDTO;
 import org.unibl.etf.pisio.incidentservice.model.Incident;
 import org.unibl.etf.pisio.incidentservice.model.enums.IncidentStatus;
 import org.unibl.etf.pisio.incidentservice.model.enums.IncidentSubtype;
@@ -11,13 +12,13 @@ import org.unibl.etf.pisio.incidentservice.model.enums.IncidentType;
 import org.unibl.etf.pisio.incidentservice.repository.IncidentRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.nio.file.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.time.format.DateTimeFormatter;
 
 @Service
 public class IncidentService {
@@ -56,15 +57,9 @@ public class IncidentService {
         }
 
         incident.setStatus(IncidentStatus.REPORTED);
-
-        List<String> existingDescriptions = repository.findAll().stream()
-                .map(Incident::getDescription)
-                .filter(desc -> desc != null && !desc.isBlank())
-                .toList();
-
-        IncidentStatus analyzedStatus = analyzeWithNlp(incident.getDescription(), existingDescriptions);
+        List<Incident> existingIncidents = repository.findAll();
+        IncidentStatus analyzedStatus = analyzeWithNlp(incident, existingIncidents);
         incident.setStatus(analyzedStatus);
-
         return repository.save(incident);
     }
 
@@ -121,24 +116,44 @@ public class IncidentService {
         return repository.findByUserId(userId);
     }
 
-    private IncidentStatus analyzeWithNlp(String description, List<String> existing) {
+    private IncidentStatus analyzeWithNlp(Incident incident, List<Incident> existing) {
         RestTemplate restTemplate = new RestTemplate();
         String nlpUrl = "http://localhost:5000/analyze";
 
-        IncidentNlpRequest requestBody = new IncidentNlpRequest(description, existing);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
+        IncidentDTO newDto = new IncidentDTO(
+                incident.getDescription(),
+                incident.getLocation() != null ? incident.getLocation().getLatitude() : null,
+                incident.getLocation() != null ? incident.getLocation().getLongitude() : null,
+                incident.getCreatedAt() != null ? incident.getCreatedAt().format(formatter) : null
+        );
+
+        List<IncidentDTO> existingDtos = existing.stream()
+                .map(i -> new IncidentDTO(
+                        i.getDescription(),
+                        i.getLocation() != null ? i.getLocation().getLatitude() : null,
+                        i.getLocation() != null ? i.getLocation().getLongitude() : null,
+                        i.getCreatedAt() != null ? i.getCreatedAt().format(formatter) : null
+                ))
+                .toList();
+
+        IncidentNlpRequestDTO requestBody = new IncidentNlpRequestDTO(newDto, existingDtos);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<IncidentNlpRequest> requestEntity = new HttpEntity<>(requestBody, headers);
+        HttpEntity<IncidentNlpRequestDTO> requestEntity = new HttpEntity<>(requestBody, headers);
 
         try {
-            ResponseEntity<IncidentNlpResponse> response =
-                    restTemplate.exchange(nlpUrl, HttpMethod.POST, requestEntity, IncidentNlpResponse.class);
+            ResponseEntity<IncidentNlpResponseDTO> response =
+                    restTemplate.exchange(nlpUrl, HttpMethod.POST, requestEntity, IncidentNlpResponseDTO.class);
 
             if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
                 return response.getBody().getStatus();
             }
-        } catch (Exception ignored) {}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return IncidentStatus.PENDING;
     }
 }

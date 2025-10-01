@@ -6,7 +6,7 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class IncidentNlpRequest {
-    private String text;
-    private List<String> existing;
+public class IncidentNlpRequestDTO {
+    private IncidentDTO newIncident;
+    private List<IncidentDTO> existing;
 }
