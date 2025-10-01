@@ -1,0 +1,17 @@
+<div class="dlg">
+  <div class="dlg-header">
+    <mat-icon>logout</mat-icon>
+    <h2>Logout</h2>
+  </div>
+
+  <div class="dlg-content">
+    <p>Are you sure you want to log out?</p>
+  </div>
+
+  <div class="dlg-actions">
+    <button mat-button class="cancel-btn" (click)="close(false)">No</button>
+    <button mat-raised-button color="primary" class="confirm-btn" (click)="close(true)">
+      Yes
+    </button>
+  </div>
+</div>

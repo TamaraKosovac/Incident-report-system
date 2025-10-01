@@ -5,6 +5,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { Subject, filter, map, takeUntil } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmLogoutDialogComponent } from '../../shared/confirm-logout-dialog/confirm-logout-dialog.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,7 +20,12 @@ export class DashboardComponent implements OnDestroy {
   private destroy$ = new Subject<void>();
   isLoggedIn = false;
 
-  constructor(private router: Router, private route: ActivatedRoute, private authService: AuthService ) {
+  constructor(
+    private router: Router, 
+    private route: ActivatedRoute, 
+    private authService: AuthService,
+    private dialog: MatDialog
+  ) {
     this.router.events
       .pipe(
         filter(e => e instanceof NavigationEnd),
@@ -32,7 +39,8 @@ export class DashboardComponent implements OnDestroy {
         takeUntil(this.destroy$)
       )
       .subscribe(title => (this.pageTitle = title));
-      this.isLoggedIn = this.authService.isLoggedIn();
+      
+    this.isLoggedIn = this.authService.isLoggedIn();
   }
 
   ngOnDestroy(): void {
@@ -41,8 +49,14 @@ export class DashboardComponent implements OnDestroy {
   }
 
   onLogout() {
-    this.authService.logout();
-    this.isLoggedIn = false;
-    this.router.navigate(['/']); 
+    const dialogRef = this.dialog.open(ConfirmLogoutDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.authService.logout();
+        this.isLoggedIn = false;
+        this.router.navigate(['/']);
+      }
+    });
   }
 }
