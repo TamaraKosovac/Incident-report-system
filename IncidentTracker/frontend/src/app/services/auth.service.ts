@@ -37,4 +37,17 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('token');
   }
+
+    getRole(): string | null {
+    const token = this.getToken();
+    if (!token) return null;
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1])); 
+      return payload.roles ? payload.roles[0] : null; 
+    } catch (e) {
+      console.error('Invalid token format', e);
+      return null;
+    }
+  }
 }

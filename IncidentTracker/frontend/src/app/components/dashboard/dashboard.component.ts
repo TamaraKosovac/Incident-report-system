@@ -7,6 +7,7 @@ import { Subject, filter, map, takeUntil } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmLogoutDialogComponent } from '../../shared/confirm-logout-dialog/confirm-logout-dialog.component';
+import { Role } from '../../models/enums/role.enum';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,6 +20,8 @@ export class DashboardComponent implements OnDestroy {
   pageTitle = 'Dashboard';
   private destroy$ = new Subject<void>();
   isLoggedIn = false;
+  Role = Role;
+  userRole: Role | null = null;
 
   constructor(
     private router: Router, 
@@ -41,6 +44,7 @@ export class DashboardComponent implements OnDestroy {
       .subscribe(title => (this.pageTitle = title));
       
     this.isLoggedIn = this.authService.isLoggedIn();
+    this.userRole = this.authService.getRole() as Role;
   }
 
   ngOnDestroy(): void {
@@ -55,6 +59,7 @@ export class DashboardComponent implements OnDestroy {
       if (result) {
         this.authService.logout();
         this.isLoggedIn = false;
+        this.userRole = null; 
         this.router.navigate(['/']);
       }
     });

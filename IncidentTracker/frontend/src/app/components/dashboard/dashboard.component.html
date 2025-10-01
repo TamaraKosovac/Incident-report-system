@@ -7,15 +7,15 @@
     </div>
 
     <nav class="menu">
-      <a routerLink="report" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      <a *ngIf="!isLoggedIn || (userRole !== Role.ADMIN && userRole !== Role.MODERATOR)" routerLink="report" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <mat-icon>report_problem</mat-icon>
         <span>Report incident</span>
       </a>
-      <a routerLink="map" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      <a *ngIf="!isLoggedIn || (userRole !== Role.ADMIN && userRole !== Role.MODERATOR)" routerLink="map" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <mat-icon>map</mat-icon>
         <span>Incident map</span>
       </a>
-      <a *ngIf="isLoggedIn" routerLink="my-incidents" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      <a *ngIf="isLoggedIn && userRole === Role.USER" routerLink="my-incidents" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <mat-icon>list</mat-icon>
         <span>My incidents</span>
       </a>
