@@ -23,6 +23,13 @@ export class ModeratorMapComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.initMap();
     this.loadIncidents();
+    (window as any).approveIncident = (id: number) => {
+      this.incidentsService.approveIncident(id).subscribe(() => this.loadIncidents());
+    };
+
+    (window as any).rejectIncident = (id: number) => {
+      this.incidentsService.rejectIncident(id).subscribe(() => this.loadIncidents());
+    };
   }
 
   private initMap(): void {
@@ -57,15 +64,23 @@ export class ModeratorMapComponent implements AfterViewInit {
   }
 
   private buildPopup(incident: Incident): string {
+    let actions = '';
+    if (incident.status === IncidentStatus.PENDING) {
+      actions = `
+        <div style="margin-top:10px; display:flex; justify-content:center; gap:10px;">
+          <button class="approve-btn" onclick="window.approveIncident(${incident.id})">Approve</button>
+          <button class="reject-btn" onclick="window.rejectIncident(${incident.id})">Reject</button>
+        </div>
+      `;
+    }
     return `
       <div style="text-align:center; margin-bottom:8px;">
-        <span style="
-          display:inline-block;
-          padding:4px 10px;
-          border-radius:12px;
-          font-weight:bold;
-          color:#fff;
-          background-color:${this.getStatusColor(incident.status as IncidentStatus)}">
+        <span style="display:inline-block;
+                    padding:4px 10px;
+                    border-radius:12px;
+                    font-weight:bold;
+                    color:#fff;
+                    background-color:${this.getStatusColor(incident.status as IncidentStatus)}">
           ${incident.status}
         </span>
       </div>
@@ -77,27 +92,12 @@ export class ModeratorMapComponent implements AfterViewInit {
             </div>` 
           : ''
         }
-
-        <div style="margin-bottom: 6px;">
-          <span class="material-icons" style="font-size:16px; vertical-align:middle; color:#555;">category</span>
-          ${incident.type} - ${incident.subtype ?? '-'}
-        </div>
-
-        <div style="margin-bottom: 6px;">
-          <span class="material-icons" style="font-size:16px; vertical-align:middle; color:#555;">calendar_month</span>
-          ${incident.createdAt 
-            ? new Date(incident.createdAt).toLocaleDateString('sr-Latn-BA', { 
-                day: '2-digit', 
-                month: '2-digit', 
-                year: 'numeric' 
-              }) 
-            : '-'}
-        </div>
-
-        <div style="margin-bottom: 6px;">
-          <span class="material-icons" style="font-size:16px; vertical-align:middle; color:#555;">description</span>
-          ${incident.description ?? '-'}
-        </div>
+        <div><b>Type:</b> ${incident.type} - ${incident.subtype ?? '-'}</div>
+        <div><b>Date:</b> ${incident.createdAt 
+          ? new Date(incident.createdAt).toLocaleDateString('sr-Latn-BA', {day: '2-digit', month: '2-digit', year: 'numeric'}) 
+          : '-'}</div>
+        <div><b>Description:</b> ${incident.description ?? '-'}</div>
+        ${actions}
       </div>
     `;
   }

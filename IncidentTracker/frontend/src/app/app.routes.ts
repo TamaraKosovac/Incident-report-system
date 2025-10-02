@@ -21,7 +21,7 @@ export const routes: Routes = [
       { path: 'map', component: MapComponent, data: { title: 'Incident map' } },
       { path: 'my-incidents', component: MyIncidentsComponent, canActivate: [RoleGuard],  data: { title: 'My incidents', roles: [Role.USER] } },
       { path: 'moderator-map', component: ModeratorMapComponent, canActivate: [RoleGuard], data: { title: 'Approve incidents', roles: [Role.MODERATOR] } },
-      { path: '', redirectTo: 'report', pathMatch: 'full' }
+      { path: '', component: DashboardComponent, canActivate: [RoleGuard], data: { redirectRoot: true } }
     ]
   },
 

@@ -75,4 +75,18 @@ public class IncidentController {
     public List<Incident> getMyIncidents(@RequestHeader("X-User-Id") Long userId) {
         return service.getByUserId(userId);
     }
+
+    @PutMapping("/{id}/approve")
+    public ResponseEntity<Incident> approve(@PathVariable Long id) {
+        return service.approveIncident(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.badRequest().build());
+    }
+
+    @PutMapping("/{id}/reject")
+    public ResponseEntity<Incident> reject(@PathVariable Long id) {
+        return service.rejectIncident(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.badRequest().build());
+    }
 }

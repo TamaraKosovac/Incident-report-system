@@ -156,4 +156,24 @@ public class IncidentService {
 
         return IncidentStatus.PENDING;
     }
+
+    public Optional<Incident> approveIncident(Long id) {
+        return repository.findById(id).map(existing -> {
+            if (existing.getStatus() == IncidentStatus.PENDING) {
+                existing.setStatus(IncidentStatus.APPROVED);
+                return repository.save(existing);
+            }
+            return existing;
+        });
+    }
+
+    public Optional<Incident> rejectIncident(Long id) {
+        return repository.findById(id).map(existing -> {
+            if (existing.getStatus() == IncidentStatus.PENDING) {
+                existing.setStatus(IncidentStatus.REJECTED);
+                return repository.save(existing);
+            }
+            return existing;
+        });
+    }
 }

@@ -65,4 +65,12 @@ export class IncidentsService {
 
     return this.http.get<Incident[]>(`${this.apiUrl}/approved`, { params });
   }
+
+  approveIncident(id: number): Observable<Incident> {
+    return this.http.put<Incident>(`${this.apiUrl}/${id}/approve`, {});
+  }
+
+  rejectIncident(id: number): Observable<Incident> {
+    return this.http.put<Incident>(`${this.apiUrl}/${id}/reject`, {});
+  }
 }
