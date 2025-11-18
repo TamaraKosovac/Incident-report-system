@@ -19,6 +19,10 @@
         <mat-icon>list</mat-icon>
         <span>My incidents</span>
       </a>
+      <a *ngIf="isLoggedIn && userRole === Role.USER" routerLink="edit-profile" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <mat-icon>manage_accounts</mat-icon>
+        <span>Edit profile</span>
+      </a>
       <a *ngIf="isLoggedIn && userRole === Role.MODERATOR" 
         routerLink="moderator-map" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <mat-icon>check_circle</mat-icon>

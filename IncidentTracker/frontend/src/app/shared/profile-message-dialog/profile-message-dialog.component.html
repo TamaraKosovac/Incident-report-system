@@ -1,0 +1,16 @@
+<div class="dlg">
+  <div class="dlg-header">
+    <mat-icon>{{ data.icon }}</mat-icon>
+    <h2>{{ data.title }}</h2>
+  </div>
+
+  <div class="dlg-content">
+    <p>{{ data.message }}</p>
+  </div>
+
+  <div class="dlg-actions">
+    <button mat-raised-button class="confirm-btn" (click)="close()">
+      OK
+    </button>
+  </div>
+</div>

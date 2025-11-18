@@ -1,5 +1,6 @@
 package org.unibl.etf.pisio.userservice.service;
 
+import org.unibl.etf.pisio.userservice.dto.UserDTO;
 import org.unibl.etf.pisio.userservice.model.User;
 import org.unibl.etf.pisio.userservice.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -69,5 +70,31 @@ public class UserService {
 
     public Optional<User> getByUsername(String username) {
         return repository.findByUsername(username);
+    }
+
+    public UserDTO updateSimple(Long id, UserDTO dto) {
+
+        User existing = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        existing.setUsername(dto.getUsername());
+        existing.setFirstName(dto.getFirstName());
+        existing.setLastName(dto.getLastName());
+        existing.setEmail(dto.getEmail());
+
+        User saved = repository.save(existing);
+
+        return toDTO(saved);
+    }
+
+    public UserDTO toDTO(User user) {
+        UserDTO dto = new UserDTO();
+        dto.setId(user.getId());
+        dto.setUsername(user.getUsername());
+        dto.setRole(user.getRole().name());
+        dto.setFirstName(user.getFirstName());
+        dto.setLastName(user.getLastName());
+        dto.setEmail(user.getEmail());
+        return dto;
     }
 }

@@ -1,0 +1,85 @@
+.edit-profile-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 50px 20px; 
+  box-sizing: border-box;
+}
+
+.edit-profile-grid {
+  width: 500px;              
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 26px 30px;             
+  margin-top: 40px;            
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;          
+  font-size: 14px;
+  color: #444;
+}
+
+.full-width .mat-mdc-text-field-wrapper {
+  background: #f5f7f8;
+  border: 1px solid transparent !important;
+  border-radius: 8px;
+  min-height: 46px !important;
+  height: 46px !important;
+}
+
+.full-width .mat-mdc-form-field-flex {
+  padding: 0 14px !important;
+}
+
+.full-width .mat-mdc-input-element {
+  font-size: 15px !important;
+  height: 42px !important;
+  line-height: 42px !important;
+}
+
+.full-width .mat-mdc-text-field-wrapper:hover {
+  background: #f2f4f6;
+}
+
+.full-width .mat-mdc-text-field-wrapper:focus-within {
+  background: #fff;
+  box-shadow: 0 0 0 2px rgba(76,167,156,0.15);
+}
+
+.button-row {
+  grid-column: span 2;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.save-btn {
+  width: 400px !important;  
+  height: 38px !important;  
+  border-radius: 8px !important;
+  background-color: #F97316 !important;  
+  color: #fff !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  border: none !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15) !important;
+  margin-top: 50px;
+}
+
+.save-btn:hover {
+  background-color: #C2410C !important; 
+}
+
+.success-msg {
+  color: green;
+  text-align: center;
+  margin-top: 18px;
+}
+
+.error-msg {
+  color: red;
+  text-align: center;
+  margin-top: 18px;
+}

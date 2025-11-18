@@ -1,0 +1,69 @@
+<div class="edit-profile-container">
+
+  <form class="edit-profile-grid" (ngSubmit)="updateProfile()">
+
+    <div class="form-group">
+      <label>Username</label>
+      <mat-form-field appearance="outline" class="full-width">
+        <input 
+          matInput
+          [(ngModel)]="model.username"
+          name="username"
+          placeholder="Enter username"
+          required
+        />
+      </mat-form-field>
+    </div>
+
+    <div class="form-group">
+      <label>First name</label>
+      <mat-form-field appearance="outline" class="full-width">
+        <input 
+          matInput
+          [(ngModel)]="model.firstName"
+          name="firstName"
+          placeholder="Enter first name"
+          required
+        />
+      </mat-form-field>
+    </div>
+
+    <div class="form-group">
+      <label>Last name</label>
+      <mat-form-field appearance="outline" class="full-width">
+        <input 
+          matInput
+          [(ngModel)]="model.lastName"
+          name="lastName"
+          placeholder="Enter last name"
+          required
+        />
+      </mat-form-field>
+    </div>
+
+    <div class="form-group">
+      <label>Email</label>
+      <mat-form-field appearance="outline" class="full-width">
+        <input 
+          matInput
+          type="email"
+          [(ngModel)]="model.email"
+          name="email"
+          placeholder="Enter email"
+          required
+        />
+      </mat-form-field>
+    </div>
+
+    <div class="button-row">
+      <button mat-raised-button color="primary" type="submit" class="save-btn">
+        Save changes
+      </button>
+    </div>
+
+  </form>
+
+  <p *ngIf="message" class="success-msg">{{ message }}</p>
+  <p *ngIf="errorMessage" class="error-msg">{{ errorMessage }}</p>
+
+</div>

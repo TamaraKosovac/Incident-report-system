@@ -27,17 +27,19 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getById(@PathVariable Long id) {
+    public ResponseEntity<UserDTO> getById(@PathVariable Long id) {
         return service.getById(id)
-                .map(ResponseEntity::ok)
+                .map(user -> ResponseEntity.ok(service.toDTO(user)))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User user) {
-        return service.update(id, user)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<UserDTO> updateSimple(
+            @PathVariable Long id,
+            @RequestBody UserDTO dto) {
+
+        UserDTO updated = service.updateSimple(id, dto);
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
