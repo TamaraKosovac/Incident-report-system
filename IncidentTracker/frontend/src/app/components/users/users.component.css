@@ -67,3 +67,70 @@ button.delete-btn:hover mat-icon {
   color: #555 !important;             
   font-weight: 500;
 }
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-box .search-icon {
+  position: absolute;
+  left: 15px;
+  font-size: 20px;
+  color: #888;
+  margin-top: 3px;
+}
+
+.search-box input {
+  padding: 10px 14px 10px 38px; 
+  width: 240px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  margin-left: 5px;
+}
+
+.search-box input:focus {
+  border-color: #F97316;
+  box-shadow: 0 0 4px rgba(249, 115, 22, 0.4);
+  transition: 0.2s ease;
+}
+
+.add-btn {
+  background-color: #F97316 !important;
+  color: white !important;
+}
+
+.add-btn:hover {
+  background-color: #C2410C !important;
+}
+
+.full-table {
+  margin-top: 30px;
+}
+
+.no-results {
+  width: 100%;
+  padding: 22px;
+  margin-top: 20px;
+  text-align: center;
+  color: #777;
+  font-size: 15px;
+  background: #fafafa;
+  border-radius: 8px;
+}
+
+.no-results mat-icon {
+  margin-right: 6px;
+  vertical-align: middle;
+  color: #999;
+}

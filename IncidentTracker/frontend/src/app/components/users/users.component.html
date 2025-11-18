@@ -1,6 +1,22 @@
 <div class="users-wrapper">
 
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z2 full-table">
+    <div class="top-bar">
+    <div class="search-box">
+      <mat-icon class="search-icon">search</mat-icon>
+      <input
+        type="text"
+        placeholder="Search users..."
+        [(ngModel)]="searchTerm"
+      />
+    </div>
+
+    <button mat-raised-button class="add-btn" (click)="onAddNew()">
+      <mat-icon>person_add</mat-icon>
+      Add user
+    </button>
+  </div>
+
+  <table mat-table [dataSource]="filteredUsers" class="mat-elevation-z2 full-table">
 
     <ng-container matColumnDef="icon">
       <th mat-header-cell *matHeaderCellDef></th>
@@ -47,6 +63,9 @@
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
   </table>
+      <div *ngIf="filteredUsers.length === 0" class="no-results mat-elevation-z2">
+        <mat-icon>search_off</mat-icon>
+        No results found for "{{ searchTerm }}"
+      </div>
 </div>

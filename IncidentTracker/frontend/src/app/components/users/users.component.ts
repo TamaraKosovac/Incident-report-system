@@ -5,6 +5,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-users',
@@ -14,7 +15,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatTableModule,
     MatIconModule,
     MatButtonModule,
-    MatTooltipModule
+    MatTooltipModule, 
+    FormsModule
   ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css'
@@ -23,6 +25,7 @@ export class UsersComponent implements OnInit {
 
   displayedColumns: string[] = ['icon', 'username', 'email', 'role', 'actions'];
   dataSource: any[] = [];
+  searchTerm: string = '';
 
   constructor(private userService: UserService) {}
 
@@ -39,7 +42,6 @@ export class UsersComponent implements OnInit {
 
   onEdit(user: any) {
     console.log("EDIT:", user);
-    // Modal ili navigacija po želji
   }
 
   onDelete(id: number) {
@@ -49,5 +51,22 @@ export class UsersComponent implements OnInit {
       next: () => this.loadUsers(),
       error: (err) => console.error(err)
     });
+  }
+
+  get filteredUsers() {
+    if (!this.searchTerm.trim()) {
+      return this.dataSource; 
+    }
+
+    const term = this.searchTerm.toLowerCase().trim();
+
+    return this.dataSource.filter(u =>
+      u.username.toLowerCase().includes(term) ||
+      u.email.toLowerCase().includes(term)
+    );
+  }
+
+  onAddNew() {
+    console.log("ADD NEW USER");
   }
 }
