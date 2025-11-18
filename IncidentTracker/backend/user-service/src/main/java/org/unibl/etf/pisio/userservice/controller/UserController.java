@@ -80,4 +80,14 @@ public class UserController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
+    @PostMapping("/employee")
+    public ResponseEntity<User> createEmployee(@RequestBody User user) {
+        if (user.getRole() == null ||
+                (user.getRole() != Role.ADMIN && user.getRole() != Role.MODERATOR)) {
+            return ResponseEntity.badRequest().build();
+        }
+        User saved = service.create(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+    }
 }

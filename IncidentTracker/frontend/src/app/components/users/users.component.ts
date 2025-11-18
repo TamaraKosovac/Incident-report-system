@@ -6,6 +6,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { UserFormComponent } from './user-form/user-form.component';
+import { ProfileMessageDialogComponent } from '../../shared/profile-message-dialog/profile-message-dialog.component';
 
 @Component({
   selector: 'app-users',
@@ -15,7 +18,7 @@ import { FormsModule } from '@angular/forms';
     MatTableModule,
     MatIconModule,
     MatButtonModule,
-    MatTooltipModule, 
+    MatTooltipModule,
     FormsModule
   ],
   templateUrl: './users.component.html',
@@ -27,7 +30,10 @@ export class UsersComponent implements OnInit {
   dataSource: any[] = [];
   searchTerm: string = '';
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.loadUsers();
@@ -48,14 +54,24 @@ export class UsersComponent implements OnInit {
     if (!confirm("Delete this user?")) return;
 
     this.userService.deleteUser(id).subscribe({
-      next: () => this.loadUsers(),
+      next: () => {
+        this.loadUsers();
+        this.dialog.open(ProfileMessageDialogComponent, {
+          width: '400px',
+          data: {
+            icon: 'delete',
+            title: 'User Deleted',
+            message: 'The user has been successfully deleted.'
+          }
+        });
+      },
       error: (err) => console.error(err)
     });
   }
 
   get filteredUsers() {
     if (!this.searchTerm.trim()) {
-      return this.dataSource; 
+      return this.dataSource;
     }
 
     const term = this.searchTerm.toLowerCase().trim();
@@ -67,6 +83,23 @@ export class UsersComponent implements OnInit {
   }
 
   onAddNew() {
-    console.log("ADD NEW USER");
+    const dialogRef = this.dialog.open(UserFormComponent, {
+      width: '480px',
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'refresh') {
+        this.loadUsers();
+        this.dialog.open(ProfileMessageDialogComponent, {
+          width: '400px',
+          data: {
+            icon: 'check_circle',
+            title: 'Employee Created',
+            message: 'The employee has been successfully added.'
+          }
+        });
+      }
+    });
   }
 }

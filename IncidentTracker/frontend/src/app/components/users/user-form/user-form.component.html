@@ -1,0 +1,111 @@
+<h2 mat-dialog-title>Add Employee</h2>
+
+<div mat-dialog-content class="form-container">
+  <form #employeeForm="ngForm">
+
+    <div class="form-row">
+      <div>
+        <label class="field-label">Username</label>
+        <mat-form-field class="full-width" appearance="outline">
+          <input matInput
+                 name="username"
+                 [(ngModel)]="model.username"
+                 placeholder="Username"
+                 required minlength="3" />
+          <mat-error *ngIf="employeeForm.submitted && !model.username">
+            Username is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <label class="field-label">Password</label>
+        <mat-form-field class="full-width" appearance="outline">
+          <input matInput type="password"
+                 name="password"
+                 [(ngModel)]="model.password"
+                 placeholder="Password"
+                 required minlength="8" />
+          <mat-error *ngIf="employeeForm.submitted && !model.password">
+            Password is required
+          </mat-error>
+          <mat-error *ngIf="employeeForm.submitted && model.password && model.password.length < 8">
+            Password must be at least 8 characters
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label class="field-label">First Name</label>
+        <mat-form-field class="full-width" appearance="outline">
+          <input matInput
+                 name="firstName"
+                 [(ngModel)]="model.firstName"
+                 placeholder="First Name"
+                 required minlength="2" />
+          <mat-error *ngIf="employeeForm.submitted && !model.firstName">
+            First Name is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <label class="field-label">Last Name</label>
+        <mat-form-field class="full-width" appearance="outline">
+          <input matInput
+                 name="lastName"
+                 [(ngModel)]="model.lastName"
+                 placeholder="Last Name"
+                 required minlength="2" />
+          <mat-error *ngIf="employeeForm.submitted && !model.lastName">
+            Last Name is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label class="field-label">Email</label>
+        <mat-form-field class="full-width" appearance="outline">
+          <input matInput
+                 type="email"
+                 name="email"
+                 [(ngModel)]="model.email"
+                 placeholder="Email"
+                 required />
+          <mat-error *ngIf="employeeForm.submitted && !model.email">
+            Email is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <label class="field-label">Role</label>
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-select
+            name="role"
+            [(ngModel)]="model.role"
+            required placeholder="Choose">
+            <mat-option value="ADMIN">Admin</mat-option>
+            <mat-option value="MODERATOR">Moderator</mat-option>
+          </mat-select>
+          <mat-error *ngIf="employeeForm.submitted && !model.role">
+            Role is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<div mat-dialog-actions class="dialog-actions">
+  <button mat-stroked-button color="warn" (click)="close()">Cancel</button>
+  <button mat-raised-button color="primary"
+          (click)="employeeForm.ngSubmit.emit(); save()">
+    Save
+  </button>
+</div>
