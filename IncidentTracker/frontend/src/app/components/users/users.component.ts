@@ -9,6 +9,8 @@ import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { UserFormComponent } from './user-form/user-form.component';
 import { ProfileMessageDialogComponent } from '../../shared/profile-message-dialog/profile-message-dialog.component';
+import { ConfirmDeleteDialogComponent } from '../../shared/confirm-delete-dialog/confirm-delete-dialog.component';
+
 
 @Component({
   selector: 'app-users',
@@ -47,39 +49,51 @@ export class UsersComponent implements OnInit {
   }
 
   onEdit(user: any) {
-    console.log("EDIT:", user);
-  }
+    const dialogRef = this.dialog.open(UserFormComponent, {
+      width: '480px',
+      disableClose: true,
+      data: { user }
+    });
 
-  onDelete(id: number) {
-    if (!confirm("Delete this user?")) return;
-
-    this.userService.deleteUser(id).subscribe({
-      next: () => {
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'refresh') {
         this.loadUsers();
+
         this.dialog.open(ProfileMessageDialogComponent, {
           width: '400px',
           data: {
-            icon: 'delete',
-            title: 'User Deleted',
-            message: 'The user has been successfully deleted.'
+            icon: 'edit',
+            title: 'Employee Updated',
+            message: 'The employee data has been successfully updated.'
           }
         });
-      },
-      error: (err) => console.error(err)
+      }
     });
   }
 
-  get filteredUsers() {
-    if (!this.searchTerm.trim()) {
-      return this.dataSource;
-    }
+  onDelete(user: any) {
+    const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, {
+      width: '420px',
+      data: { username: user.username }
+    });
 
-    const term = this.searchTerm.toLowerCase().trim();
-
-    return this.dataSource.filter(u =>
-      u.username.toLowerCase().includes(term) ||
-      u.email.toLowerCase().includes(term)
-    );
+    dialogRef.afterClosed().subscribe(confirmed => {
+      if (confirmed) {
+        this.userService.deleteUser(user.id).subscribe({
+          next: () => {
+            this.loadUsers();
+            this.dialog.open(ProfileMessageDialogComponent, {
+              width: '400px',
+              data: {
+                icon: 'check_circle',
+                title: 'Employee Deleted',
+                message: 'The employee has been successfully deleted.'
+              }
+            });
+          }
+        });
+      }
+    });
   }
 
   onAddNew() {
@@ -101,5 +115,18 @@ export class UsersComponent implements OnInit {
         });
       }
     });
+  }
+
+  get filteredUsers() {
+    if (!this.searchTerm.trim()) {
+      return this.dataSource;
+    }
+
+    const term = this.searchTerm.toLowerCase().trim();
+
+    return this.dataSource.filter(u =>
+      u.username.toLowerCase().includes(term) ||
+      u.email.toLowerCase().includes(term)
+    );
   }
 }

@@ -41,4 +41,8 @@ export class UserService {
   createUser(user: any) {
     return this.http.post(`${this.apiUrl}/employee`, user);
   }
+
+  updateUser(id: number, model: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, model);
+  }
 }
