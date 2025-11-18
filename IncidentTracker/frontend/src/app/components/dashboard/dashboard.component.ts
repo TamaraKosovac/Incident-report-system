@@ -64,4 +64,19 @@ export class DashboardComponent implements OnDestroy {
       }
     });
   }
+
+  getRolePrefix(): string {
+    if (!this.isLoggedIn) return 'Guest dashboard';
+
+    switch (this.userRole) {
+      case Role.ADMIN:
+        return 'Admin dashboard';
+      case Role.MODERATOR:
+        return 'Moderator dashboard';
+      case Role.USER:
+        return 'User dashboard';
+      default:
+        return 'Dashboard';
+    }
+  }
 }

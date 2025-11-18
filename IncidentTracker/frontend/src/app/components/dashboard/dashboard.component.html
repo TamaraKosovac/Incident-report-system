@@ -35,8 +35,16 @@
 
   <main class="content">
     <header class="topbar">
-      <div class="dashboard-title">{{ pageTitle }}</div>
+      <div class="dashboard-title">
+        {{ getRolePrefix() }} - {{ pageTitle }}
+      </div>
       <div class="spacer"></div>
+          <img
+            *ngIf="isLoggedIn"
+            class="role-icon"
+            [src]="userRole === Role.USER ? 'assets/user.png' : 'assets/admin.png'"
+            alt="role icon"
+          />
         <ng-container *ngIf="!isLoggedIn">
           <button mat-raised-button class="login-outline-button" routerLink="/login">
             Login
