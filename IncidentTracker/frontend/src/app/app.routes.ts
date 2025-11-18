@@ -24,7 +24,7 @@ export const routes: Routes = [
       { path: 'my-incidents', component: MyIncidentsComponent, canActivate: [RoleGuard],  data: { title: 'My incidents', roles: [Role.USER] } },
       { path: 'edit-profile', component: EditProfileComponent, canActivate: [RoleGuard],  data: { title: 'Edit profile', roles: [Role.USER] } },
       { path: 'moderator-map', component: ModeratorMapComponent, canActivate: [RoleGuard], data: { title: 'Approve incidents', roles: [Role.MODERATOR] } },
-      { path: 'users', component: UsersComponent, canActivate: [RoleGuard], data: { title: 'Edit users', roles: [Role.ADMIN] } },
+      { path: 'users', component: UsersComponent, canActivate: [RoleGuard], data: { title: 'Edit employees', roles: [Role.ADMIN] } },
       { path: '', component: DashboardComponent, canActivate: [RoleGuard], data: { redirectRoot: true } }
     ]
   },

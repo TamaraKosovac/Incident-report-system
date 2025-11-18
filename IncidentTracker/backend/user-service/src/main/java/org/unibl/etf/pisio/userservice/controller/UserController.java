@@ -23,7 +23,9 @@ public class UserController {
 
     @GetMapping
     public List<User> getAll() {
-        return service.getAll();
+        return service.getAll().stream()
+                .filter(u -> u.getRole() == Role.ADMIN || u.getRole() == Role.MODERATOR)
+                .toList();
     }
 
     @GetMapping("/{id}")

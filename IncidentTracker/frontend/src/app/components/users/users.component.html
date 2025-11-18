@@ -5,14 +5,14 @@
       <mat-icon class="search-icon">search</mat-icon>
       <input
         type="text"
-        placeholder="Search users..."
+        placeholder="Search employees..."
         [(ngModel)]="searchTerm"
       />
     </div>
 
     <button mat-raised-button class="add-btn" (click)="onAddNew()">
       <mat-icon>person_add</mat-icon>
-      Add user
+      Add employee
     </button>
   </div>
 
@@ -21,11 +21,11 @@
     <ng-container matColumnDef="icon">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let u">
-        <img
-          class="role-icon"
-          [src]="u.role === 'USER' ? 'assets/user.png' : 'assets/admin.png'"
-          alt="role"
-        />
+      <img
+        class="role-icon"
+        src="assets/admin.png"
+        alt="admin"
+      />
       </td>
     </ng-container>
 
