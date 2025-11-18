@@ -11,21 +11,24 @@ export class RoleGuard implements CanActivate {
     const expectedRoles: Role[] = route.data['roles'];
     const userRole = this.auth.getRole();
 
-    if (route.data['redirectRoot']) {
-      if (!this.auth.isLoggedIn()) {
-        this.router.navigate(['/report']);
-        return false;
-      }
+if (route.data['redirectRoot']) {
+  if (!this.auth.isLoggedIn()) {
+    this.router.navigate(['/report']);
+    return false;
+  }
 
-      if (userRole === Role.MODERATOR) {
-        this.router.navigate(['/moderator-map']);
-      } else if (userRole === Role.USER) {
-        this.router.navigate(['/report']);
-      } else {
-        this.router.navigate(['/report']); 
-      }
-      return false;
+  if (userRole === Role.MODERATOR) {
+      this.router.navigate(['/moderator-map']);
+    } else if (userRole === Role.USER) {
+      this.router.navigate(['/report']);
+    } else if (userRole === Role.ADMIN) {
+      this.router.navigate(['/users']);
+    } else {
+      this.router.navigate(['/report']);
     }
+
+    return false;
+  }
 
     if (expectedRoles && expectedRoles.length > 0) {
       if (!this.auth.isLoggedIn() || !expectedRoles.includes(userRole as Role)) {

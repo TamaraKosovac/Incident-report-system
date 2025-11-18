@@ -28,6 +28,13 @@
         <mat-icon>check_circle</mat-icon>
         <span>Approve incidents</span>
       </a>
+      <a *ngIf="isLoggedIn && userRole === Role.ADMIN"
+        routerLink="users"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }">
+        <mat-icon>group</mat-icon>
+        <span>Users</span>
+      </a>
     </nav>
     <div class="bottom" *ngIf="isLoggedIn">
       <a (click)="onLogout()">

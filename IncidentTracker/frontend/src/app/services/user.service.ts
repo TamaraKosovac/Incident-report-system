@@ -29,4 +29,12 @@ export class UserService {
     const userId = this.getUserIdFromToken();
     return this.http.put(`${this.apiUrl}/${userId}`, model);
   }
+
+  getAllUsers(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
+  }
+
+  deleteUser(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
 }
