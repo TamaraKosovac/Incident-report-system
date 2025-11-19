@@ -176,4 +176,9 @@ public class IncidentService {
             return existing;
         });
     }
+
+    public List<Incident> getRecent(int days) {
+        LocalDateTime cutoff = LocalDateTime.now().minusDays(days);
+        return repository.findByCreatedAtAfter(cutoff);
+    }
 }

@@ -89,4 +89,9 @@ public class IncidentController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.badRequest().build());
     }
+
+    @GetMapping("/recent")
+    public List<Incident> getRecent(@RequestParam(defaultValue = "7") int days) {
+        return service.getRecent(days);
+    }
 }
