@@ -10,6 +10,7 @@ import { ModeratorMapComponent } from './components/incidents/moderator-map/mode
 import { UsersComponent } from './components/users/users.component';
 import { Role } from './models/enums/role.enum';
 import { RoleGuard } from './guards/role.guard';
+import { AnalyticsComponent } from './components/analytics/analytics.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },  
@@ -25,6 +26,7 @@ export const routes: Routes = [
       { path: 'edit-profile', component: EditProfileComponent, canActivate: [RoleGuard],  data: { title: 'Edit profile', roles: [Role.USER] } },
       { path: 'moderator-map', component: ModeratorMapComponent, canActivate: [RoleGuard], data: { title: 'Approve incidents', roles: [Role.MODERATOR] } },
       { path: 'users', component: UsersComponent, canActivate: [RoleGuard], data: { title: 'Edit employees', roles: [Role.ADMIN] } },
+      { path: 'analytics', component: AnalyticsComponent, canActivate: [RoleGuard], data: { title: 'Analytics', roles: [Role.ADMIN, Role.MODERATOR] } },
       { path: '', component: DashboardComponent, canActivate: [RoleGuard], data: { redirectRoot: true } }
     ]
   },

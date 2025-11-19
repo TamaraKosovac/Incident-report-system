@@ -35,6 +35,13 @@
         <mat-icon>group</mat-icon>
         <span>Employees</span>
       </a>
+      <a *ngIf="isLoggedIn && (userRole === Role.ADMIN || userRole === Role.MODERATOR)"
+        routerLink="analytics"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }">
+          <mat-icon>bar_chart</mat-icon>
+          <span>Analytics</span>
+      </a>
     </nav>
     <div class="bottom" *ngIf="isLoggedIn">
       <a (click)="onLogout()">

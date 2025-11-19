@@ -1,0 +1,78 @@
+<div class="analytics">
+
+  <div class="stats-grid">
+    <div class="stat-card"><h3>Total incidents</h3><p>{{ total }}</p></div>
+    <div class="stat-card"><h3>Last 24 hours</h3><p>{{ last24h }}</p></div>
+    <div class="stat-card"><h3>Last 7 days</h3><p>{{ last7d }}</p></div>
+    <div class="stat-card"><h3>Last 30 days</h3><p>{{ last30d }}</p></div>
+  </div>
+
+  <div class="chart-grid">
+
+    <div class="chart-card">
+      <h3>Top 5 incident types</h3>
+      <canvas baseChart [data]="topTypesChartData" type="bar"></canvas>
+    </div>
+
+    <div class="chart-card">
+      <h3>Daily incidents (30 Days)</h3>
+      <canvas baseChart [data]="dailyChartData" type="line"></canvas>
+    </div>
+
+    <div class="chart-card">
+      <h3>Top locations</h3>
+      <canvas baseChart [data]="topLocationsData" type="bar"></canvas>
+    </div>
+
+<div class="chart-card radius-card">
+  <h3>Incidents in radius</h3>
+
+  <div class="radius-inputs">
+    <div class="input-group">
+      <label>Latitude</label>
+      <input type="number" [(ngModel)]="lat">
+    </div>
+
+    <div class="input-group">
+      <label>Longitude</label>
+      <input type="number" [(ngModel)]="lng">
+    </div>
+
+    <div class="input-group">
+      <label>Radius (m)</label>
+      <input type="number" [(ngModel)]="radius">
+    </div>
+  </div>
+
+  <button class="radius-btn" (click)="checkRadius()">Search</button>
+
+  <div class="radius-result">
+    <span class="radius-badge">{{ radiusCount }}</span>
+    <span class="radius-label">incidents found</span>
+  </div>
+</div>
+
+<div class="chart-card points-card">
+  <h3>Incident points (lat/lng)</h3>
+
+  <div class="points-list">
+    <div class="point-item" *ngFor="let p of points">
+      <span class="point-lat">{{ p.latitude }}</span>
+      <span class="point-lng">{{ p.longitude }}</span>
+    </div>
+  </div>
+</div>
+
+    <div class="chart-card">
+      <h3>Type distribution</h3>
+      <canvas baseChart [data]="typeDistributionData" type="pie"></canvas>
+    </div>
+
+    <div class="chart-card">
+      <h3>Subtype distribution</h3>
+      <canvas baseChart [data]="subtypeChartData" type="pie"></canvas>
+    </div>
+
+  </div>
+
+</div>

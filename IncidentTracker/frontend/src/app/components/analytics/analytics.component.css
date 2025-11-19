@@ -1,0 +1,134 @@
+.analytics {
+  padding: 20px;
+}
+
+.stats-grid {
+  display: grid;
+  gap: 20px;
+  margin-bottom: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.stat-card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+.stat-card h3 {
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.stat-card p {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #111;
+}
+
+.chart-grid {
+  display: grid;
+  gap: 25px;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+}
+
+.chart-card {
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.chart-card h3 {
+  margin-bottom: 15px;
+  color: #444;
+}
+
+
+.radius-card {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.radius-inputs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.input-group label {
+  font-size: 0.8rem;
+  color: #555;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  outline: none;
+}
+
+.radius-btn {
+  background: #F97316;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.radius-btn:hover {
+  background: #C2410C;
+}
+
+.radius-result {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.radius-badge {
+  background: #FB923C;
+  padding: 8px 14px;
+  border-radius: 20px;
+  color: white;
+  font-weight: bold;
+}
+
+.radius-label {
+  color: #444;
+}
+
+
+.points-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.points-list {
+  max-height: 220px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.point-item {
+  display: flex;
+  justify-content: space-between;
+  background: #FFF7ED; 
+  padding: 8px 12px;
+  border-radius: 10px;
+  margin-bottom: 6px;
+  border-left: 4px solid #F97316;
+}
+
+.point-lat, .point-lng {
+  font-weight: 600;
+  color: #C2410C;
+}
