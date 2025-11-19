@@ -11,18 +11,26 @@ spring:
           uri: http://localhost:8081
           predicates:
             - Path=/api/incidents/**
+
         - id: incident-uploads
           uri: http://localhost:8081
           predicates:
             - Path=/uploads/**
+
         - id: user-service
           uri: http://localhost:8082
           predicates:
             - Path=/api/users/**
+
         - id: auth-service
           uri: http://localhost:8083
           predicates:
             - Path=/api/auth/**
+
+        - id: analytics-service
+          uri: http://localhost:8086
+          predicates:
+            - Path=/api/analytics/**
 
 jwt:
   secret: ${JWT_SECRET}
