@@ -3,6 +3,8 @@ package org.unibl.etf.pisio.analyticsservice.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.unibl.etf.pisio.analyticsservice.dto.DailyCountDTO;
+import org.unibl.etf.pisio.analyticsservice.dto.LocationPointDTO;
+import org.unibl.etf.pisio.analyticsservice.dto.TopLocationDTO;
 import org.unibl.etf.pisio.analyticsservice.service.AnalyticsService;
 
 import java.util.List;
@@ -30,12 +32,31 @@ public class AnalyticsController {
     }
 
     @GetMapping("/time/daily")
-    public List<DailyCountDTO> daily(@RequestParam(defaultValue = "30") int days) {
-        return analyticsService.dailyCounts(days);
+    public List<DailyCountDTO> daily() {
+        return analyticsService.dailyCounts();
     }
 
     @GetMapping("/time/total")
     public long total() {
         return analyticsService.totalIncidents();
+    }
+
+    @GetMapping("/location/top")
+    public List<TopLocationDTO> topLocations() {
+        return analyticsService.topLocations();
+    }
+
+    @GetMapping("/location/points")
+    public List<LocationPointDTO> getPoints() {
+        return analyticsService.getAllPoints();
+    }
+
+    @GetMapping("/location/radius")
+    public long countInRadius(
+            @RequestParam double lat,
+            @RequestParam double lng,
+            @RequestParam double radiusMeters
+    ) {
+        return analyticsService.countInRadius(lat, lng, radiusMeters);
     }
 }

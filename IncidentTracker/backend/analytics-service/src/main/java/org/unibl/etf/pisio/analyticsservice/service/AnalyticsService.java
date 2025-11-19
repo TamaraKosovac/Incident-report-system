@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import org.unibl.etf.pisio.analyticsservice.client.IncidentClient;
 import org.unibl.etf.pisio.analyticsservice.dto.DailyCountDTO;
 import org.unibl.etf.pisio.analyticsservice.dto.IncidentDTO;
+import org.unibl.etf.pisio.analyticsservice.dto.LocationPointDTO;
+import org.unibl.etf.pisio.analyticsservice.dto.TopLocationDTO;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -44,7 +46,9 @@ public class AnalyticsService {
                 .count();
     }
 
-    public List<DailyCountDTO> dailyCounts(int days) {
+    public List<DailyCountDTO> dailyCounts() {
+        int days = 30;
+
         LocalDate start = LocalDate.now().minusDays(days);
 
         List<IncidentDTO> incidents = incidentClient.getAllIncidents();
@@ -65,5 +69,59 @@ public class AnalyticsService {
 
     public long totalIncidents() {
         return incidentClient.getAllIncidents().size();
+    }
+
+    public List<TopLocationDTO> topLocations() {
+        int limit = 5;
+
+        List<IncidentDTO> incidents = incidentClient.getAllIncidents();
+
+        Map<String, Long> grouped = incidents.stream()
+                .filter(i -> i.getLocation() != null && i.getLocation().getAddress() != null)
+                .collect(Collectors.groupingBy(
+                        i -> i.getLocation().getAddress(),
+                        Collectors.counting()
+                ));
+
+        return grouped.entrySet().stream()
+                .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
+                .limit(limit)
+                .map(e -> new TopLocationDTO(e.getKey(), e.getValue()))
+                .toList();
+    }
+
+    public List<LocationPointDTO> getAllPoints() {
+        return incidentClient.getAllIncidents().stream()
+                .filter(i -> i.getLocation() != null)
+                .filter(i -> i.getLocation().getLatitude() != null && i.getLocation().getLongitude() != null)
+                .map(i -> new LocationPointDTO(
+                        i.getLocation().getLatitude(),
+                        i.getLocation().getLongitude()))
+                .toList();
+    }
+
+    private double distanceKm(double lat1, double lon1, double lat2, double lon2) {
+        double R = 6371;
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLon = Math.toRadians(lon2 - lon1);
+        double a = Math.sin(dLat/2) * Math.sin(dLat/2)
+                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                * Math.sin(dLon/2) * Math.sin(dLon/2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        return R * c;
+    }
+
+    public long countInRadius(double lat, double lng, double radiusMeters) {
+        double radiusKm = radiusMeters / 1000.0;
+
+        return incidentClient.getAllIncidents().stream()
+                .filter(i -> i.getLocation() != null)
+                .filter(i -> i.getLocation().getLatitude() != null && i.getLocation().getLongitude() != null)
+                .filter(i -> distanceKm(
+                        lat, lng,
+                        i.getLocation().getLatitude(),
+                        i.getLocation().getLongitude()
+                ) <= radiusKm)
+                .count();
     }
 }
