@@ -3,10 +3,7 @@ package org.unibl.etf.pisio.analyticsservice.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.unibl.etf.pisio.analyticsservice.client.IncidentClient;
-import org.unibl.etf.pisio.analyticsservice.dto.DailyCountDTO;
-import org.unibl.etf.pisio.analyticsservice.dto.IncidentDTO;
-import org.unibl.etf.pisio.analyticsservice.dto.LocationPointDTO;
-import org.unibl.etf.pisio.analyticsservice.dto.TopLocationDTO;
+import org.unibl.etf.pisio.analyticsservice.dto.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -123,5 +120,57 @@ public class AnalyticsService {
                         i.getLocation().getLongitude()
                 ) <= radiusKm)
                 .count();
+    }
+
+    public List<CategoryCountDTO> countByType() {
+        return incidentClient.getAllIncidents().stream()
+                .collect(Collectors.groupingBy(
+                        IncidentDTO::getType,
+                        Collectors.counting()
+                ))
+                .entrySet()
+                .stream()
+                .map(e -> new CategoryCountDTO(e.getKey(), e.getValue()))
+                .toList();
+    }
+
+    public List<CategoryCountDTO> countBySubtype() {
+        return incidentClient.getAllIncidents().stream()
+                .collect(Collectors.groupingBy(
+                        IncidentDTO::getSubtype,
+                        Collectors.counting()
+                ))
+                .entrySet()
+                .stream()
+                .map(e -> new CategoryCountDTO(e.getKey(), e.getValue()))
+                .toList();
+    }
+
+    public List<CategoryCountDTO> topTypes(int limit) {
+        return incidentClient.getAllIncidents().stream()
+                .collect(Collectors.groupingBy(
+                        IncidentDTO::getType,
+                        Collectors.counting()
+                ))
+                .entrySet()
+                .stream()
+                .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
+                .limit(limit)
+                .map(e -> new CategoryCountDTO(e.getKey(), e.getValue()))
+                .toList();
+    }
+
+    public List<CategoryCountDTO> topTypes() {
+        return incidentClient.getAllIncidents().stream()
+                .collect(Collectors.groupingBy(
+                        IncidentDTO::getType,
+                        Collectors.counting()
+                ))
+                .entrySet()
+                .stream()
+                .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
+                .limit(5)
+                .map(e -> new CategoryCountDTO(e.getKey(), e.getValue()))
+                .toList();
     }
 }

@@ -2,6 +2,7 @@ package org.unibl.etf.pisio.analyticsservice.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.unibl.etf.pisio.analyticsservice.dto.CategoryCountDTO;
 import org.unibl.etf.pisio.analyticsservice.dto.DailyCountDTO;
 import org.unibl.etf.pisio.analyticsservice.dto.LocationPointDTO;
 import org.unibl.etf.pisio.analyticsservice.dto.TopLocationDTO;
@@ -58,5 +59,20 @@ public class AnalyticsController {
             @RequestParam double radiusMeters
     ) {
         return analyticsService.countInRadius(lat, lng, radiusMeters);
+    }
+
+    @GetMapping("/type")
+    public List<CategoryCountDTO> getByType() {
+        return analyticsService.countByType();
+    }
+
+    @GetMapping("/subtype")
+    public List<CategoryCountDTO> getBySubtype() {
+        return analyticsService.countBySubtype();
+    }
+
+    @GetMapping("/type/top")
+    public List<CategoryCountDTO> getTop5Types() {
+        return analyticsService.topTypes();
     }
 }
