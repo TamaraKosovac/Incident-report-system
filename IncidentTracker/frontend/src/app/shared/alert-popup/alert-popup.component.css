@@ -1,0 +1,68 @@
+.alert-popup {
+  width: 480px;
+  background: #fffdfb;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.20);
+  padding: 0;
+  overflow: hidden;
+}
+
+.popup-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  background: #fff3e5;
+  border-bottom: 1px solid #f5d5ba;
+  font-size: 18px;
+  font-weight: 600;
+  color: #e67e22;
+}
+
+.popup-header mat-icon {
+  color: #e67e22;
+  font-size: 24px;
+}
+
+.popup-content {
+  padding: 12px 16px;
+}
+
+.no-alerts {
+  text-align: center;
+  padding: 25px 0;
+  color: #888;
+}
+
+.no-alerts mat-icon {
+  font-size: 36px;
+  color: #ccc;
+  margin-bottom: 8px;
+}
+
+.alert-card {
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #fff7f1;
+  border: 1px solid #f5d5ba;
+  margin-bottom: 12px;
+}
+
+.alert-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  color: #e67e22;
+  margin-bottom: 4px;
+}
+
+.alert-time {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 6px;
+}
+
+.alert-message {
+  font-size: 14px;
+  color: #4b5563;
+}

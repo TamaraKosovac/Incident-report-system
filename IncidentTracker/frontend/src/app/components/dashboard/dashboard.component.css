@@ -245,7 +245,7 @@ html, body {
   top: -4px;
   right: -4px;
 
-  background-color: #EF4444;
+  background-color: #F97316;
   color: white;
   border-radius: 50%;
   font-size: 12px;
@@ -263,4 +263,8 @@ html, body {
   width: 36px;
   height: 36px;
   border-radius: 50%;
+}
+
+.notification-btn .mat-icon {
+  color: black;
 }

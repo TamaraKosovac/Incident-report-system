@@ -124,3 +124,17 @@ app-root, app-admin, .admin-layout {
   color: #F97316 !important;
   font-weight: 600;
 }
+
+.alert-dialog-position.cdk-overlay-pane {
+  position: fixed !important;
+  top: 100px !important;
+  right: 20px !important;
+  left: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+}
+
+.alert-dialog-position.cdk-overlay-pane .mat-mdc-dialog-surface {
+  background: transparent !important;
+  box-shadow: none !important;
+}

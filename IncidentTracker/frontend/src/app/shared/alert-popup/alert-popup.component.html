@@ -1,24 +1,33 @@
-<h2 mat-dialog-title>New Alerts</h2>
+<div class="alert-popup">
 
-<mat-dialog-content>
-
-  <div *ngIf="alerts.length === 0">
-    <p>No new alerts.</p>
+  <div class="popup-header">
+    <mat-icon>notifications_active</mat-icon>
+    <span>New alerts</span>
   </div>
 
-  <mat-card *ngFor="let a of alerts" class="alert-card">
+  <div class="popup-content">
 
-    <mat-card-title>Cluster alert</mat-card-title>
-    <mat-card-subtitle>
-      {{ a.detectedAt | date:'short' }}
-      ({{ a.incidentCount }} incidents)
-    </mat-card-subtitle>
+    <div *ngIf="alerts.length === 0" class="no-alerts">
+      <mat-icon>notifications_off</mat-icon>
+      <p>No new alerts.</p>
+    </div>
 
-    <p>{{ a.message }}</p>
+    <div *ngFor="let a of alerts" class="alert-card">
 
-  </mat-card>
-</mat-dialog-content>
+      <div class="alert-header">
+        <span class="alert-title">Cluster alert</span>
+        <span class="alert-count">{{ a.incidentCount }} incidents</span>
+      </div>
 
-<mat-dialog-actions>
-  <button mat-button mat-dialog-close>Close</button>
-</mat-dialog-actions>
+      <div class="alert-time">
+        {{ a.detectedAt | date:'dd. MM. yyyy.' }}
+      </div>
+
+      <p class="alert-message">
+        {{ a.message }}
+      </p>
+
+    </div>
+
+  </div>
+</div>

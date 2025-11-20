@@ -87,7 +87,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .subscribe(alerts => {
         this.dialog.open(AlertPopupComponent, {
           width: '500px',
-          data: alerts
+          data: alerts,
+          panelClass: 'alert-dialog-position'
         });
       });
   }
