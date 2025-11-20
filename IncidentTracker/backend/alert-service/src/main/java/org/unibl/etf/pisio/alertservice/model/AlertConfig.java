@@ -10,7 +10,6 @@ public class AlertConfig {
 
     @Id
     private Integer id = 1;
-
     private Integer radiusMeters;
     private Integer timeWindowMinutes;
     private Integer minIncidents;

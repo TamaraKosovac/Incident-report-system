@@ -42,7 +42,24 @@ public class AlertDetectionService {
                         " incidents in last " + cfg.getTimeWindowMinutes() +
                         " minutes within " + cfg.getRadiusMeters() + "m.";
 
-                alertService.createAlert(cluster.size(), centerLat, centerLng, message);
+                List<Long> ids = cluster.stream()
+                        .map(IncidentDTO::getId)
+                        .sorted()
+                        .toList();
+
+                String idString = String.join("_",
+                        ids.stream().map(String::valueOf).toList());
+
+                String signature = "C_" + idString + "_"
+                        + cfg.getRadiusMeters() + "_"
+                        + cfg.getTimeWindowMinutes();
+
+                if (alertService.existsBySignature(signature)) {
+                    System.out.println("DUPLICATE ALERT BLOCKED");
+                    continue;
+                }
+
+                alertService.createAlert(cluster.size(), centerLat, centerLng, message, signature);
             }
         }
     }

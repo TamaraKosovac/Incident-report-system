@@ -10,15 +10,13 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-public class Alert {
+public class AlertRead {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDateTime detectedAt;
-    private Integer incidentCount;
-    private Double centerLat;
-    private Double centerLng;
-    private String message;
-    private String signature;
+
+    private Long moderatorId;
+    private Long alertId;
+    private LocalDateTime readAt;
 }
