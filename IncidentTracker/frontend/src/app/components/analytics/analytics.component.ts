@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { AnalyticsService } from '../../services/analytics.service';
+import { AnalyticService } from '../../services/analytic.service';
 import { FormsModule } from '@angular/forms';
 
 import {
@@ -45,19 +45,19 @@ export class AnalyticsComponent implements OnInit {
   points: any[] = [];
   radiusCount = 0;
 
-  constructor(private analytics: AnalyticsService) {}
+  constructor(private analytic: AnalyticService) {}
 
   ngOnInit(): void {
     this.loadAll();
   }
 
   loadAll() {
-    this.analytics.total().subscribe(v => this.total = v);
-    this.analytics.count24h().subscribe(v => this.last24h = v);
-    this.analytics.count7d().subscribe(v => this.last7d = v);
-    this.analytics.count30d().subscribe(v => this.last30d = v);
+    this.analytic.total().subscribe(v => this.total = v);
+    this.analytic.count24h().subscribe(v => this.last24h = v);
+    this.analytic.count7d().subscribe(v => this.last7d = v);
+    this.analytic.count30d().subscribe(v => this.last30d = v);
 
-    this.analytics.top5Types().subscribe(res => {
+    this.analytic.top5Types().subscribe(res => {
       const labels = res.map(x => x.name);
       const data = res.map(x => x.count);
 
@@ -73,7 +73,7 @@ export class AnalyticsComponent implements OnInit {
       };
     });
 
-    this.analytics.types().subscribe(res => {
+    this.analytic.types().subscribe(res => {
       const labels = res.map(x => x.name);
       const data = res.map(x => x.count);
 
@@ -86,7 +86,7 @@ export class AnalyticsComponent implements OnInit {
       };
     });
 
-    this.analytics.subtypes().subscribe(res => {
+    this.analytic.subtypes().subscribe(res => {
       const labels = res.map(x => x.name);
       const data = res.map(x => x.count);
 
@@ -99,7 +99,7 @@ export class AnalyticsComponent implements OnInit {
       };
     });
 
-    this.analytics.daily().subscribe(res => {
+    this.analytic.daily().subscribe(res => {
       const labels = res.map(x => x.date);
       const data = res.map(x => x.count);
 
@@ -117,7 +117,7 @@ export class AnalyticsComponent implements OnInit {
       };
     });
 
-    this.analytics.topLocations().subscribe(res => {
+    this.analytic.topLocations().subscribe(res => {
       const labels = res.map(x => x.address);
       const data = res.map(x => x.count);
 
@@ -134,13 +134,13 @@ export class AnalyticsComponent implements OnInit {
     });
 
 
-    this.analytics.getPoints().subscribe(res => {
+    this.analytic.getPoints().subscribe(res => {
       this.points = res;
     });
   }
 
   checkRadius() {
-    this.analytics.countInRadius(this.lat, this.lng, this.radius)
+    this.analytic.countInRadius(this.lat, this.lng, this.radius)
       .subscribe(v => this.radiusCount = v);
   }
 }

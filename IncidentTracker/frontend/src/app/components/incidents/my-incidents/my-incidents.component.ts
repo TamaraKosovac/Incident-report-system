@@ -1,7 +1,7 @@
 import { Component, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
 import { CommonModule } from '@angular/common';
-import { IncidentsService } from '../../../services/incidents.service';
+import { IncidentService } from '../../../services/incident.service';
 import { Incident } from '../../../models/incident.model';
 
 @Component({
@@ -25,7 +25,7 @@ export class MyIncidentsComponent implements AfterViewInit {
     popupAnchor: [0, -30]
   });
 
-  constructor(private incidentsService: IncidentsService) {}
+  constructor(private incidentService: IncidentService) {}
 
   ngAfterViewInit(): void {
     this.initMap();
@@ -45,7 +45,7 @@ export class MyIncidentsComponent implements AfterViewInit {
   }
 
   private loadMyIncidents(): void {
-    this.incidentsService.getMyIncidents().subscribe((incidents: Incident[]) => {
+    this.incidentService.getMyIncidents().subscribe((incidents: Incident[]) => {
       this.markers.forEach(m => this.map.removeLayer(m));
       this.markers = [];
 

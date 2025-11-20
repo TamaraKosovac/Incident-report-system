@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class AnalyticsService {
+export class AnalyticService {
 
   private apiUrl = 'http://localhost:8080/api/analytics'; 
 

@@ -25,7 +25,7 @@
       </a>
       <a *ngIf="isLoggedIn && userRole === Role.MODERATOR" 
         routerLink="moderator-map" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <mat-icon>check_circle</mat-icon>
+        <mat-icon>done</mat-icon>
         <span>Approve incidents</span>
       </a>
       <a *ngIf="isLoggedIn && userRole === Role.ADMIN"
@@ -34,6 +34,13 @@
         [routerLinkActiveOptions]="{ exact: true }">
         <mat-icon>group</mat-icon>
         <span>Employees</span>
+      </a>
+      <a *ngIf="userRole === Role.MODERATOR"
+        routerLink="alert-settings"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }">
+        <mat-icon>tune</mat-icon>
+        <span>Alert settings</span>
       </a>
       <a *ngIf="isLoggedIn && (userRole === Role.ADMIN || userRole === Role.MODERATOR)"
         routerLink="analytics"
@@ -57,6 +64,12 @@
         {{ getRolePrefix() }} - {{ pageTitle }}
       </div>
       <div class="spacer"></div>
+        <div class="notification-wrapper" *ngIf="isLoggedIn && userRole === Role.MODERATOR">
+          <button mat-icon-button class="notification-btn" (click)="openAlertsPopup()">
+            <mat-icon>notifications</mat-icon>
+            <span class="badge" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
+          </button>
+        </div>
           <img
             *ngIf="isLoggedIn"
             class="role-icon"

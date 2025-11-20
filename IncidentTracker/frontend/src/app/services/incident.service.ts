@@ -6,7 +6,7 @@ import { Incident } from '../models/incident.model';
 @Injectable({
   providedIn: 'root'
 })
-export class IncidentsService {
+export class IncidentService {
   private apiUrl = 'http://localhost:8080/api/incidents'; 
 
   constructor(private http: HttpClient) {}

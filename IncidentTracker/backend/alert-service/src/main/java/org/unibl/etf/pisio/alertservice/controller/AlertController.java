@@ -20,21 +20,21 @@ public class AlertController {
     }
 
     @GetMapping("/unread")
-    public List<Alert> getUnreadAlerts(@RequestHeader("X-User-Id") Long moderatorId) {
+    public List<Alert> getUnreadAlerts(@RequestParam Long moderatorId) {
         return alertService.getUnreadAlerts(moderatorId);
     }
 
     @PostMapping("/{alertId}/read")
     public String markAlertRead(
-            @RequestHeader("X-User-Id") Long moderatorId,
-            @PathVariable Long alertId
+            @PathVariable Long alertId,
+            @RequestParam Long moderatorId
     ) {
         alertService.markAsRead(moderatorId, alertId);
         return "OK";
     }
 
     @GetMapping("/unread/count")
-    public long getUnreadCount(@RequestHeader("X-User-Id") Long moderatorId) {
+    public long getUnreadCount(@RequestParam Long moderatorId) {
         return alertService.getUnreadCount(moderatorId);
     }
 }

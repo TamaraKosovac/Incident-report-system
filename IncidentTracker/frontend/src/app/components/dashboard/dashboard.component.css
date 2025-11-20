@@ -220,3 +220,47 @@ html, body {
   height: 35px;
   margin-right: 15px;
 }
+
+.topbar {
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.notification-wrapper {
+  position: relative;
+  margin-right: 12px;
+}
+
+.notification-btn {
+  position: relative;
+}
+
+.notification-btn .mat-icon {
+  font-size: 28px;
+}
+
+.badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+
+  background-color: #EF4444;
+  color: white;
+  border-radius: 50%;
+  font-size: 12px;
+  padding: 2px 6px;
+  line-height: 1;
+
+  min-width: 18px;
+  height: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.role-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}

@@ -10,7 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'; 
 import { IncidentType } from '../../../models/enums/incident-type.enum';
 import { IncidentSubtype } from '../../../models/enums/incident-subtype.enum';
-import { IncidentsService } from '../../../services/incidents.service';
+import { IncidentService } from '../../../services/incident.service';
 
 interface IncidentForm {
   type: IncidentType | '';
@@ -112,7 +112,7 @@ export class ReportFormComponent {
   constructor(
     private dialogRef: MatDialogRef<ReportFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { latitude: number; longitude: number },
-    private incidentsService: IncidentsService,
+    private incidentService: IncidentService,
     private snackBar: MatSnackBar 
   ) {
     this.incident.location.latitude = data.latitude ? Number(data.latitude.toFixed(5)) : null;
@@ -188,7 +188,7 @@ export class ReportFormComponent {
   }
 
   save() {
-    this.incidentsService.createIncident(this.incident).subscribe({
+    this.incidentService.createIncident(this.incident).subscribe({
       next: (res) => {
         this.snackBar.open('Incident reported successfully!', '', {
           duration: 3000,

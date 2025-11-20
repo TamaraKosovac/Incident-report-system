@@ -5,7 +5,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
-import { IncidentsService } from '../../../services/incidents.service';
+import { IncidentService } from '../../../services/incident.service';
 import { Incident } from '../../../models/incident.model';
 import { IncidentType } from '../../../models/enums/incident-type.enum';
 import { IncidentSubtype } from '../../../models/enums/incident-subtype.enum';
@@ -98,7 +98,7 @@ export class MapComponent implements AfterViewInit {
     popupAnchor: [0, -30]
   });
 
-  constructor(private incidentsService: IncidentsService) {}
+  constructor(private incidentService: IncidentService) {}
 
   ngAfterViewInit(): void {
     this.initMap();
@@ -118,7 +118,7 @@ export class MapComponent implements AfterViewInit {
   }
 
   applyFilters(): void {
-    this.incidentsService.getApprovedIncidentsFiltered(
+    this.incidentService.getApprovedIncidentsFiltered(
       this.selectedType || undefined,
       this.selectedSubtype || undefined,
       this.locationFilter || undefined,

@@ -2,7 +2,7 @@ import { Component, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import { CommonModule } from '@angular/common';
-import { IncidentsService } from '../../../services/incidents.service';
+import { IncidentService } from '../../../services/incident.service';
 import { Incident } from '../../../models/incident.model';
 import { IncidentStatus } from '../../../models/enums/incident-status.enum';
 
@@ -18,17 +18,17 @@ export class ModeratorMapComponent implements AfterViewInit {
   private map!: L.Map;
   private markers = L.markerClusterGroup();
 
-  constructor(private incidentsService: IncidentsService) {}
+  constructor(private incidentService: IncidentService) {}
 
   ngAfterViewInit(): void {
     this.initMap();
     this.loadIncidents();
     (window as any).approveIncident = (id: number) => {
-      this.incidentsService.approveIncident(id).subscribe(() => this.loadIncidents());
+      this.incidentService.approveIncident(id).subscribe(() => this.loadIncidents());
     };
 
     (window as any).rejectIncident = (id: number) => {
-      this.incidentsService.rejectIncident(id).subscribe(() => this.loadIncidents());
+      this.incidentService.rejectIncident(id).subscribe(() => this.loadIncidents());
     };
   }
 
@@ -45,7 +45,7 @@ export class ModeratorMapComponent implements AfterViewInit {
   }
 
   private loadIncidents(): void {
-    this.incidentsService.getIncidents().subscribe((incidents: Incident[]) => {
+    this.incidentService.getIncidents().subscribe((incidents: Incident[]) => {
       this.markers.clearLayers();
 
       incidents.forEach(incident => {
