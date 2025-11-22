@@ -8,42 +8,38 @@ spring:
         - PreserveHostHeader
       routes:
         - id: incident-service
-          uri: http://localhost:8081
+          uri: http://incident-service:8081
           predicates:
             - Path=/api/incidents/**
 
         - id: incident-uploads
-          uri: http://localhost:8081
+          uri: http://incident-service:8081
           predicates:
             - Path=/uploads/**
 
         - id: user-service
-          uri: http://localhost:8082
+          uri: http://user-service:8082
           predicates:
             - Path=/api/users/**
 
         - id: auth-service
-          uri: http://localhost:8083
+          uri: http://auth-service:8083
           predicates:
             - Path=/api/auth/**
 
         - id: analytics-service
-          uri: http://localhost:8084
+          uri: http://analytics-service:8084
           predicates:
             - Path=/api/analytics/**
 
         - id: alert-service
-          uri: http://localhost:8085
+          uri: http://alert-service:8085
           predicates:
             - Path=/api/alerts/**
-
-jwt:
-  secret: ${JWT_SECRET}
-  expiration: 86400000
 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://discovery-service:8761/eureka
     register-with-eureka: true
     fetch-registry: true

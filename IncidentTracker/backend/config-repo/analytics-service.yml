@@ -1,13 +1,12 @@
 server:
   port: 8084
 
-spring:
-  application:
-    name: analytics-service
+incident-service:
+  url: http://incident-service:8081
 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://discovery-service:8761/eureka
     register-with-eureka: true
     fetch-registry: true

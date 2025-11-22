@@ -9,7 +9,7 @@ import java.util.Map;
 @Service
 public class TranslationService {
 
-    private static final String URL = "http://localhost:5001/translate";
+    private static final String URL = "http://translation-service:5001/translate";
 
     public String translate(String text, String source, String target) {
         RestTemplate restTemplate = new RestTemplate();

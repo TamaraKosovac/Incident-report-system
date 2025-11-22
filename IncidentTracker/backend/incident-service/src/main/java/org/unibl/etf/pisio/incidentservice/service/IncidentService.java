@@ -118,7 +118,7 @@ public class IncidentService {
 
     private IncidentStatus analyzeWithNlp(Incident incident, List<Incident> existing) {
         RestTemplate restTemplate = new RestTemplate();
-        String nlpUrl = "http://localhost:5000/analyze";
+        String nlpUrl = "http://nlp-service:5000/analyze";
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
