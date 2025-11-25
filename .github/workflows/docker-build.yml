@@ -1,0 +1,44 @@
+name: Build & Push All Services to DockerHub
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build-push:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        service:
+          - alert-service
+          - analytics-service
+          - auth-service
+          - config-server
+          - discovery-service
+          - gateway-service
+          - incident-service
+          - nlp-service
+          - translation-service
+          - user-service
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build Docker image
+        run: |
+          docker build \
+            -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.service }}:latest \
+            ./IncidentTracker/backend/${{ matrix.service }}/
+
+      - name: Push Docker image
+        run: |
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.service }}:latest
