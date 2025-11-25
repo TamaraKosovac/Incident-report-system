@@ -38,7 +38,7 @@ jobs:
         run: |
           docker build \
             -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.service }}:latest \
-            ./${{ matrix.service }}
+            ./${{ matrix.service }}/
 
       - name: Push Docker image
         run: |
