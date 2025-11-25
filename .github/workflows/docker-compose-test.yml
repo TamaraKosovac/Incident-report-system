@@ -22,8 +22,21 @@ jobs:
         run: docker-compose up -d
         working-directory: ./IncidentTracker/backend
 
-      - name: Wait for services to start
-        run: sleep 25
+      - name: Wait for gateway to be ready
+        run: |
+          echo "Waiting for gateway..."
+          for i in {1..40}; do
+            if curl -s http://localhost:8080/actuator/health | grep UP; then
+              echo "Gateway is ready!"
+              exit 0
+            fi
+            echo "Still starting ($i/40)..."
+            sleep 5
+          done
+          echo "Gateway FAILED to start!"
+          docker-compose logs
+          exit 1
+        working-directory: ./IncidentTracker/backend
 
       - name: Test API (gateway-service)
         run: curl -f http://localhost:8080/actuator/health
