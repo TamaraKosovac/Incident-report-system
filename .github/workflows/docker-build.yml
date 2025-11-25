@@ -23,7 +23,6 @@ jobs:
           - translation-service
           - user-service
 
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -38,7 +37,7 @@ jobs:
         run: |
           docker build \
             -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.service }}:latest \
-            ./${{ matrix.service }}/
+            ./IncidentTracker/backend/${{ matrix.service }}/
 
       - name: Push Docker image
         run: |
