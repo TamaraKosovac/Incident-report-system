@@ -44,6 +44,11 @@ jobs:
       - name: Test incident-service
         run: curl -f http://localhost:8081/actuator/health
 
+      - name: Print incident-service logs
+        if: failure()
+        run: docker-compose logs incident-service
+        working-directory: ./IncidentTracker/backend
+
       - name: Test user-service
         run: curl -f http://localhost:8082/actuator/health
 
