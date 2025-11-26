@@ -5,20 +5,18 @@ spring:
   application:
     name: config-server
 
-  profiles:
-    active: native
-
   cloud:
     config:
       server:
-        native:
-          search-locations: file:/app/config-repo
+        git:
+          uri: https://github.com/TamaraKosovac/incident-config
+          clone-on-start: true
 
 management:
   endpoints:
     web:
       exposure:
-        include: health,info
+        include: "*"
   endpoint:
     health:
       show-details: always
