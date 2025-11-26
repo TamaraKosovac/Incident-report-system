@@ -22,3 +22,12 @@ eureka:
       defaultZone: http://discovery-service:8761/eureka
     register-with-eureka: true
     fetch-registry: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always

@@ -13,3 +13,12 @@ spring:
       server:
         native:
           search-locations: file:/app/config-repo
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
