@@ -9,6 +9,7 @@ export interface Incident {
   subtype?: IncidentSubtype;
   status?: IncidentStatus;
   description: string;
+  descriptionEn?: string; 
   location: Location;
   imagePath?: string;
   createdAt?: string; 

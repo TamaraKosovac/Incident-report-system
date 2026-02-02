@@ -7,29 +7,18 @@ services:
       - "8761:8761"
     networks:
       - app-net
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
-      interval: 5s
-      timeout: 3s
-      retries: 10
 
   config-server:
     build: ./config-server
     container_name: config-server
     depends_on:
-      discovery-service:
-        condition: service_healthy
+      - discovery-service
     ports:
       - "8888:8888"
     volumes:
       - ./config-repo:/app/config-repo
     networks:
       - app-net
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8888/actuator/health"]
-      interval: 5s
-      timeout: 3s
-      retries: 10
 
   translation-service:
     build: ./translation-service
@@ -64,16 +53,11 @@ services:
     build: ./incident-service
     container_name: incident-service
     depends_on:
-      incident-db:
-        condition: service_started
-      config-server:
-        condition: service_healthy
-      discovery-service:
-        condition: service_healthy
-      translation-service:
-        condition: service_started
-      nlp-service:
-        condition: service_started
+      - incident-db
+      - config-server
+      - discovery-service
+      - translation-service
+      - nlp-service
     environment:
       SPRING_PROFILES_ACTIVE: docker
       SPRING_CLOUD_CONFIG_FAIL_FAST: "false"
@@ -101,12 +85,9 @@ services:
     build: ./user-service
     container_name: user-service
     depends_on:
-      user-db:
-        condition: service_started
-      config-server:
-        condition: service_healthy
-      discovery-service:
-        condition: service_healthy
+      - user-db
+      - config-server
+      - discovery-service
     environment:
       SPRING_PROFILES_ACTIVE: docker
       SPRING_CLOUD_CONFIG_FAIL_FAST: "false"
@@ -121,12 +102,9 @@ services:
     build: ./auth-service
     container_name: auth-service
     depends_on:
-      config-server:
-        condition: service_healthy
-      discovery-service:
-        condition: service_healthy
-      user-service:
-        condition: service_started
+      - config-server
+      - discovery-service
+      - user-service
     environment:
       SPRING_PROFILES_ACTIVE: docker
       SPRING_CLOUD_CONFIG_FAIL_FAST: "false"
@@ -143,12 +121,9 @@ services:
     build: ./analytics-service
     container_name: analytics-service
     depends_on:
-      config-server:
-        condition: service_healthy
-      discovery-service:
-        condition: service_healthy
-      incident-service:
-        condition: service_started
+      - config-server
+      - discovery-service
+      - incident-service
     environment:
       SPRING_PROFILES_ACTIVE: docker
       SPRING_CLOUD_CONFIG_FAIL_FAST: "false"
@@ -176,14 +151,10 @@ services:
     build: ./alert-service
     container_name: alert-service
     depends_on:
-      alert-db:
-        condition: service_started
-      config-server:
-        condition: service_healthy
-      discovery-service:
-        condition: service_healthy
-      incident-service:
-        condition: service_started
+      - alert-db
+      - config-server
+      - discovery-service
+      - incident-service
     environment:
       SPRING_PROFILES_ACTIVE: docker
       SPRING_CLOUD_CONFIG_FAIL_FAST: "false"
@@ -198,20 +169,13 @@ services:
     build: ./gateway-service
     container_name: gateway-service
     depends_on:
-      config-server:
-        condition: service_healthy
-      discovery-service:
-        condition: service_healthy
-      incident-service:
-        condition: service_started
-      user-service:
-        condition: service_started
-      auth-service:
-        condition: service_started
-      analytics-service:
-        condition: service_started
-      alert-service:
-        condition: service_started
+      - config-server
+      - discovery-service
+      - incident-service
+      - user-service
+      - auth-service
+      - analytics-service
+      - alert-service
     environment:
       SPRING_PROFILES_ACTIVE: docker
       SPRING_CLOUD_CONFIG_FAIL_FAST: "false"
@@ -223,6 +187,22 @@ services:
       - "8080:8080"
     networks:
       - app-net
+
+  
+  frontend:
+    build: ../frontend
+    container_name: frontend
+    working_dir: /app
+    volumes:
+      - ../frontend:/app
+      - /app/node_modules
+    ports:
+      - "4200:4200"
+    command: npm start
+    networks:
+      - app-net
+    depends_on:
+      - gateway-service
 
 
 networks:

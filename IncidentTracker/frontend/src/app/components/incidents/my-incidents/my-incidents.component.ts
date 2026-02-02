@@ -100,6 +100,11 @@ export class MyIncidentsComponent implements AfterViewInit {
                 <span class="material-icons" style="font-size:16px; vertical-align:middle; color:#555;">description</span>
                 ${incident.description ?? '-'}
               </div>
+              
+              <div>
+                <span class="material-icons" style="font-size:16px; vertical-align:middle; color:#555;">translate</span>
+                ${incident.descriptionEn ?? '-'}
+              </div>
             </div>
           `);
           this.markers.push(marker);
