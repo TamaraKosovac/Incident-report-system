@@ -32,6 +32,36 @@ jobs:
           exit 1
         working-directory: ./IncidentTracker
 
+      - name: Wait for incident-service
+        run: |
+          echo "Waiting for incident-service..."
+          for i in {1..30}; do
+            if curl -s http://localhost:8081/actuator/health | grep UP; then
+              echo "Incident-service is up!"
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "Incident-service failed to start"
+          docker compose logs incident-service
+          exit 1
+        working-directory: ./IncidentTracker
+
+      - name: Wait for user-service
+        run: |
+          echo "Waiting for user-service..."
+          for i in {1..30}; do
+            if curl -s http://localhost:8082/actuator/health | grep UP; then
+              echo "User-service is up!"
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "User-service failed to start"
+          docker compose logs user-service
+          exit 1
+        working-directory: ./IncidentTracker
+
       - name: Test incident-service API
         run: curl -f http://localhost:8081/actuator/health
 
