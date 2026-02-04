@@ -1,0 +1,44 @@
+name: Docker Compose API Tests
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  integration-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Start services with docker-compose
+        run: docker-compose up -d
+        working-directory: ./IncidentTracker
+
+      - name: Wait for gateway-service
+        run: |
+          echo "Waiting for gateway-service..."
+          for i in {1..30}; do
+            if curl -s http://localhost:8080/actuator/health | grep UP; then
+              echo "Gateway is up!"
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "Gateway failed to start"
+          docker-compose logs gateway-service
+          exit 1
+        working-directory: ./IncidentTracker
+
+      - name: Test incident-service API
+        run: curl -f http://localhost:8081/actuator/health
+
+      - name: Test user-service API
+        run: curl -f http://localhost:8082/actuator/health
+
+      - name: Stop services
+        if: always()
+        run: docker-compose down
+        working-directory: ./IncidentTracker
